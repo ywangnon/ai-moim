@@ -676,6 +676,167 @@
       margin-top: 8px;
     }
 
+    /* FLYING SANTA ANIMATION */
+    .flying-santa-layer {
+      position: fixed;
+      top: 18%;
+      left: -400px;
+      z-index: 95;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      transition: none;
+    }
+
+    .flying-santa-layer.fly {
+      animation: flyAcrossSky 10s cubic-bezier(0.2, 0.8, 0.4, 1) forwards;
+    }
+
+    @keyframes flyAcrossSky {
+      0% {
+        transform: translate3d(0, 0, 0) scale(0.65) rotate(4deg);
+        left: -400px;
+        opacity: 0;
+      }
+      8% {
+        opacity: 1;
+      }
+      50% {
+        transform: translate3d(calc(50vw + 200px), -35px, 0) scale(1) rotate(-3deg);
+      }
+      92% {
+        opacity: 1;
+      }
+      100% {
+        transform: translate3d(calc(100vw + 600px), 25px, 0) scale(0.8) rotate(5deg);
+        opacity: 0;
+      }
+    }
+
+    .santa-sleigh-box {
+      font-size: 40px;
+      filter: drop-shadow(0 0 15px rgba(249, 211, 66, 0.7));
+      user-select: none;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .stardust-trail {
+      font-size: 18px;
+      color: var(--gold);
+      opacity: 0.8;
+      animation: twinkleStardust 0.5s infinite alternate;
+    }
+
+    @keyframes twinkleStardust {
+      0% { opacity: 0.3; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1.2); }
+    }
+
+    /* ADVENT CALENDAR */
+    .advent-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 14px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 768px) {
+      .advent-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+      }
+    }
+
+    .advent-door {
+      aspect-ratio: 1;
+      perspective: 900px;
+      cursor: pointer;
+    }
+
+    .advent-card {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1);
+      border-radius: var(--radius-md);
+    }
+
+    .advent-door.opened .advent-card {
+      transform: rotateY(180deg);
+    }
+
+    .advent-front, .advent-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: var(--radius-md);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      text-align: center;
+      box-sizing: border-box;
+    }
+
+    .advent-front {
+      background: linear-gradient(135deg, rgba(27, 77, 62, 0.85), rgba(12, 40, 32, 0.95));
+      border: 1px solid rgba(249, 211, 66, 0.25);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+      transition: all 0.25s ease;
+    }
+
+    .advent-door:hover .advent-front {
+      border-color: var(--gold);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(249, 211, 66, 0.3);
+    }
+
+    .advent-front.day-25 {
+      background: linear-gradient(135deg, rgba(211, 47, 47, 0.95), rgba(136, 19, 19, 0.95));
+      border: 2px solid var(--gold);
+      box-shadow: 0 0 25px rgba(249, 211, 66, 0.45);
+    }
+
+    .advent-num {
+      font-family: 'Cinzel', serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    .advent-icon-preview {
+      font-size: 16px;
+      margin-top: 4px;
+      opacity: 0.85;
+    }
+
+    .advent-back {
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      border: 1px solid var(--border-gold);
+      transform: rotateY(180deg);
+      color: #f1f5f9;
+      box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.6);
+    }
+
+    .advent-back-icon {
+      font-size: 26px;
+      margin-bottom: 6px;
+    }
+
+    .advent-back-text {
+      font-size: 12px;
+      line-height: 1.35;
+      font-weight: 500;
+      color: #e2e8f0;
+    }
+
     /* CARD MAKER SECTION */
     .card-preview-frame {
       width: 100%;
@@ -945,6 +1106,14 @@
   <canvas id="confetti-canvas"></canvas>
   <div class="aurora-layer"></div>
 
+  <!-- Flying Santa across the sky -->
+  <div id="flying-santa" class="flying-santa-layer">
+    <div class="santa-sleigh-box">
+      <span>🦌</span><span>🦌</span><span>🛷</span><span>🎅</span>
+      <span class="stardust-trail">✨✨✨</span>
+    </div>
+  </div>
+
   <!-- Main Container -->
   <div class="container">
     
@@ -954,6 +1123,9 @@
         <span>🎄</span> Merry Winter
       </a>
       <div class="nav-actions">
+        <button id="btn-summon-santa" class="btn-pill" title="밤하늘에 산타 썰매 부르기">
+          <span>🎅</span> 산타 부르기
+        </button>
         <button id="btn-toggle-snow" class="btn-pill" title="눈 내림 조절">
           <span>❄️</span> 눈 모드: <span>보통</span>
         </button>
@@ -1128,6 +1300,24 @@
       </div>
     </div>
 
+    <!-- SECTION: CHRISTMAS ADVENT CALENDAR -->
+    <div class="section-title">
+      <h2><span>📅</span> 크리스마스 어드벤트 캘린더 (1~25일)</h2>
+      <p>12월 1일부터 25일까지 매일 문을 하나씩 열어 특별한 꿀팁과 깜짝 선물을 확인해보세요!</p>
+    </div>
+
+    <div class="glass-card" style="margin-bottom: 60px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <span style="font-size: 14px; color: var(--gold-light);">✨ 열린 도어: <span id="advent-opened-count">0</span> / 25</span>
+        <button id="btn-reset-advent" class="btn-pill" style="font-size: 12px; padding: 6px 12px;">
+          <span>🔄</span> 캘린더 리셋
+        </button>
+      </div>
+      <div class="advent-grid" id="advent-grid">
+        <!-- Rendered by JavaScript -->
+      </div>
+    </div>
+
     <!-- SECTION 3: DIY CHRISTMAS CARD MAKER -->
     <div class="section-title">
       <h2><span>💌</span> 나만의 크리스마스 카드 제작기</h2>
@@ -1246,6 +1436,10 @@
     </div>
     <button class="audio-btn" id="btn-play-music" title="재생/일시정지">▶</button>
     <button class="audio-btn" id="btn-next-music" title="다음 곡">⏭</button>
+    <div style="display: flex; align-items: center; gap: 4px; padding-left: 4px;" title="볼륨 조절">
+      <span style="font-size: 13px;">🔊</span>
+      <input type="range" id="audio-volume" min="0" max="1" step="0.05" value="0.7" style="width: 50px; accent-color: var(--gold); cursor: pointer;">
+    </div>
   </div>
 
   <!-- WISH POPUP MODAL -->
@@ -1372,6 +1566,8 @@
     let isPlaying = false;
     let currentTrackIdx = 0;
     let timerSequence = null;
+    let masterVolume = 0.7;
+    let fireplaceGainNode = null;
 
     // Frequencies of Musical Notes (Hz)
     const NOTES = {
@@ -1458,7 +1654,7 @@
 
       const now = audioCtx.currentTime;
       gain.gain.setValueAtTime(0.001, now);
-      gain.gain.exponentialRampToValueAtTime(0.28, now + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.28 * masterVolume, now + 0.02);
       gain.gain.exponentialRampToValueAtTime(0.0001, now + Math.max(duration, 0.4));
 
       osc.connect(gain);
@@ -1563,7 +1759,8 @@
         filter.frequency.value = 650;
 
         const gain = audioCtx.createGain();
-        gain.gain.value = 0.35;
+        gain.gain.value = 0.35 * masterVolume;
+        fireplaceGainNode = gain;
 
         whiteNoise.connect(filter);
         filter.connect(gain);
@@ -1576,6 +1773,13 @@
         document.getElementById('sound-label').textContent = '모닥불 재생 중 🔥';
       }
     }
+
+    document.getElementById('audio-volume').addEventListener('input', (e) => {
+      masterVolume = parseFloat(e.target.value);
+      if (fireplaceGainNode && audioCtx) {
+        fireplaceGainNode.gain.setValueAtTime(0.35 * masterVolume, audioCtx.currentTime);
+      }
+    });
 
     document.getElementById('btn-sound-mode').addEventListener('click', toggleFireplace);
 
@@ -1711,6 +1915,124 @@
     });
     modalBackdrop.addEventListener('click', (e) => {
       if (e.target === modalBackdrop) modalBackdrop.classList.remove('show');
+    });
+
+    /* =========================================================
+       FLYING SANTA SLEIGH LOGIC
+    ========================================================= */
+    const flyingSantaEl = document.getElementById('flying-santa');
+    let isSantaFlying = false;
+
+    function summonSanta() {
+      if (isSantaFlying) return;
+      isSantaFlying = true;
+      initAudio();
+
+      // Jingle sound sequence
+      playCelestaTone(NOTES.E4, 0.15);
+      setTimeout(() => playCelestaTone(NOTES.G4, 0.15), 140);
+      setTimeout(() => playCelestaTone(NOTES.C5, 0.25), 280);
+
+      flyingSantaEl.classList.add('fly');
+      triggerConfetti(window.innerWidth * 0.3, window.innerHeight * 0.25);
+
+      setTimeout(() => {
+        flyingSantaEl.classList.remove('fly');
+        isSantaFlying = false;
+      }, 10500);
+    }
+
+    document.getElementById('btn-summon-santa').addEventListener('click', summonSanta);
+
+    // Auto flyby every 45 seconds
+    setInterval(() => {
+      if (!isSantaFlying) summonSanta();
+    }, 45000);
+
+    /* =========================================================
+       CHRISTMAS ADVENT CALENDAR (25 DAYS)
+    ========================================================= */
+    const ADVENT_ITEMS = [
+      { day: 1, icon: "🎄", text: "트리 점등식! 따뜻한 크리스마스 시즌 시작" },
+      { day: 2, icon: "☕", text: "달콤한 마시멜로 듬뿍 핫초코 마시기" },
+      { day: 3, icon: "🎬", text: "영화 추천: '나 홀로 집에' 시리즈 정주행" },
+      { day: 4, icon: "🍪", text: "고소하고 달콤한 진저브레드 쿠키 굽기" },
+      { day: 5, icon: "💌", text: "오랫동안 연락 못 한 친구에게 안부 톡 보내기" },
+      { day: 6, icon: "🧦", text: "포근하고 귀여운 수면 양말 챙겨신기" },
+      { day: 7, icon: "🍊", text: "이불 속에서 귤 3개 까먹으며 휴식하기" },
+      { day: 8, icon: "🎶", text: "오늘의 추천 캐롤: All I Want for Christmas" },
+      { day: 9, icon: "⛄", text: "손 시려도 즐거운 눈사람 만들기 도전" },
+      { day: 10, icon: "🕯️", text: "따뜻한 시나몬 향초 켜고 힐링 타임 갖기" },
+      { day: 11, icon: "📖", text: "크리스마스 동화나 따뜻한 소설 한 편 읽기" },
+      { day: 12, icon: "🎁", text: "올 한 해 나를 위한 작은 셀프 선물 고르기" },
+      { day: 13, icon: "✨", text: "반짝이는 연말 거리 불빛 구경하며 산책" },
+      { day: 14, icon: "🍰", text: "달콤한 딸기 생크림 케이크 예약하기" },
+      { day: 15, icon: "🧤", text: "추운 날씨, 따뜻한 장갑 꼭 챙기기!" },
+      { day: 16, icon: "🌟", text: "내년 2027년에 이루고 싶은 버킷리스트 쓰기" },
+      { day: 17, icon: "🍎", text: "따끈따끈 향긋한 뱅쇼(Vin Chaud) 끓이기" },
+      { day: 18, icon: "🎵", text: "오케스트라 크리스마스 재즈 캐롤 감상하기" },
+      { day: 19, icon: "💖", text: "소중한 사람에게 '고마워' 진심 전하기" },
+      { day: 20, icon: "🎞️", text: "영화 추천: '로맨틱 홀리데이' 감상" },
+      { day: 21, icon: "❄️", text: "창문에 예쁜 눈송이 오너먼트 붙이기" },
+      { day: 22, icon: "🔔", text: "올 한 해 감사했던 일 3가지 적어보기" },
+      { day: 23, icon: "🧸", text: "크리스마스 이브 전야제! 설레는 마음 준비" },
+      { day: 24, icon: "🎅", text: "크리스마스 이브! 머리맡에 양말 두고 잠들기" },
+      { day: 25, icon: "🎉", text: "메리 크리스마스! 당신의 모든 꿈이 이루어지길!" }
+    ];
+
+    let openedAdventDays = JSON.parse(localStorage.getItem('advent_opened_days_2026') || '[]');
+    const adventGridEl = document.getElementById('advent-grid');
+    const adventCountEl = document.getElementById('advent-opened-count');
+
+    function renderAdventCalendar() {
+      adventGridEl.innerHTML = '';
+      adventCountEl.textContent = openedAdventDays.length;
+
+      ADVENT_ITEMS.forEach((item) => {
+        const isOpened = openedAdventDays.includes(item.day);
+        const door = document.createElement('div');
+        door.className = `advent-door ${isOpened ? 'opened' : ''}`;
+        door.dataset.day = item.day;
+
+        door.innerHTML = `
+          <div class="advent-card">
+            <div class="advent-front ${item.day === 25 ? 'day-25' : ''}">
+              <div class="advent-num">${item.day}</div>
+              <div class="advent-icon-preview">${item.day === 25 ? '⭐' : '🎁'}</div>
+            </div>
+            <div class="advent-back">
+              <div class="advent-back-icon">${item.icon}</div>
+              <div class="advent-back-text">${item.text}</div>
+            </div>
+          </div>
+        `;
+
+        door.addEventListener('click', () => {
+          if (!door.classList.contains('opened')) {
+            door.classList.add('opened');
+            if (!openedAdventDays.includes(item.day)) {
+              openedAdventDays.push(item.day);
+              localStorage.setItem('advent_opened_days_2026', JSON.stringify(openedAdventDays));
+            }
+            adventCountEl.textContent = openedAdventDays.length;
+            initAudio();
+            playCelestaTone(item.day === 25 ? NOTES.G5 : NOTES.E5, 0.25);
+            triggerConfetti();
+          }
+        });
+
+        adventGridEl.appendChild(door);
+      });
+    }
+
+    renderAdventCalendar();
+
+    document.getElementById('btn-reset-advent').addEventListener('click', () => {
+      if (confirm('어드벤트 캘린더를 리셋하여 모든 도어를 다시 닫으시겠습니까?')) {
+        openedAdventDays = [];
+        localStorage.removeItem('advent_opened_days_2026');
+        renderAdventCalendar();
+      }
     });
 
     /* =========================================================
