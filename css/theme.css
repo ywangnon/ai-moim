@@ -302,3 +302,4 @@ body.stark-mode .v-bar {
 body, .glass-card, .navbar, .btn-pill, .countdown-wrapper, .modal-box, .audio-player-pill {
   transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, color 0.4s ease;
 }
+

@@ -77,3 +77,4 @@
   document.addEventListener('DOMContentLoaded', initTheme);
   window.applyTheme = applyTheme;
 })();
+
