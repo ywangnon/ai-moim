@@ -1,0 +1,305 @@
+/* =========================================================
+   AVENGERS: DOOMSDAY - THEME SYSTEM (DOOM vs STARK TECH)
+========================================================= */
+
+/* ---------------------------------------------------------
+   1. TOP-RIGHT THEME SWITCH COMPONENT
+--------------------------------------------------------- */
+.theme-toggle-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 8px;
+  padding-left: 14px;
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.theme-switch-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  background: rgba(10, 16, 26, 0.85);
+  border: 1.5px solid rgba(16, 185, 129, 0.4);
+  border-radius: 50px;
+  padding: 4px 14px 4px 5px;
+  cursor: pointer;
+  gap: 10px;
+  user-select: none;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  transition: all var(--transition-smooth);
+  outline: none;
+}
+
+.theme-switch-btn:hover {
+  border-color: var(--doom-emerald);
+  box-shadow: 0 6px 22px rgba(16, 185, 129, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.theme-switch-btn:focus-visible {
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.6);
+}
+
+.theme-switch-btn:active {
+  transform: translateY(0) scale(0.97);
+}
+
+.theme-track {
+  position: relative;
+  width: 62px;
+  height: 30px;
+  background: linear-gradient(135deg, #051410 0%, #062b20 50%, #021a14 100%);
+  border-radius: 30px;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  transition: all 0.45s ease;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.7);
+}
+
+/* Track Deco: Doom Mode */
+.track-doom-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.4s ease;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 8px;
+}
+
+.track-doom-bg .rune-spark {
+  color: var(--doom-emerald-light);
+  font-size: 8px;
+  animation: runePulse 1.8s infinite alternate;
+}
+
+@keyframes runePulse {
+  0% { opacity: 0.3; transform: scale(0.8); }
+  100% { opacity: 1; transform: scale(1.2); }
+}
+
+/* Track Deco: Stark Mode */
+.track-stark-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  background: linear-gradient(135deg, #03396c 0%, #005b96 60%, #6497b1 100%);
+  display: flex;
+  align-items: center;
+  padding-left: 8px;
+}
+
+.track-stark-bg .arc-spark {
+  color: #fff;
+  font-size: 8px;
+  animation: arcPulse 1.5s infinite alternate;
+}
+
+@keyframes arcPulse {
+  0% { opacity: 0.4; }
+  100% { opacity: 1; text-shadow: 0 0 6px #38bdf8; }
+}
+
+/* Moving Thumb Knob */
+.theme-thumb {
+  position: absolute;
+  left: 3px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #064e3b 0%, #10b981 100%);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5), 0 0 10px rgba(16, 185, 129, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.4s ease, box-shadow 0.4s ease;
+  z-index: 2;
+}
+
+.thumb-icon {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: opacity 0.3s ease, transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+  user-select: none;
+}
+
+.thumb-icon.doom {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+.thumb-icon.stark {
+  opacity: 0;
+  transform: scale(0.2) rotate(-180deg);
+}
+
+/* Switch Text Label */
+.theme-label-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.15;
+  text-align: left;
+}
+
+.theme-label-title {
+  font-family: var(--font-scifi);
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: var(--text-dim);
+  font-weight: 700;
+}
+
+.theme-label-val {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--doom-emerald-light);
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  transition: color 0.3s ease;
+}
+
+/* ---------------------------------------------------------
+   2. STARK TECH THEME (Applied via body.stark-mode)
+--------------------------------------------------------- */
+body.stark-mode {
+  background: radial-gradient(circle at 50% 10%, #0d233a 0%, #071322 50%, #02070e 100%) !important;
+  color: #f0f9ff !important;
+}
+
+body.stark-mode .multiverse-rift-layer {
+  background: radial-gradient(ellipse at 50% 0%, rgba(56, 189, 248, 0.18) 0%, rgba(245, 158, 11, 0.08) 45%, transparent 75%) !important;
+}
+
+/* Switch UI in Stark Mode */
+body.stark-mode .theme-switch-btn {
+  border-color: rgba(56, 189, 248, 0.55);
+  box-shadow: 0 4px 15px rgba(56, 189, 248, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+}
+
+body.stark-mode .theme-switch-btn:hover {
+  border-color: #38bdf8;
+  box-shadow: 0 6px 22px rgba(56, 189, 248, 0.45);
+}
+
+body.stark-mode .theme-track {
+  border-color: rgba(56, 189, 248, 0.6);
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+body.stark-mode .track-doom-bg {
+  opacity: 0;
+}
+
+body.stark-mode .track-stark-bg {
+  opacity: 1;
+}
+
+body.stark-mode .theme-thumb {
+  transform: translateX(32px);
+  background: linear-gradient(135deg, #0284c7 0%, #38bdf8 100%);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5), 0 0 12px rgba(56, 189, 248, 0.9);
+}
+
+body.stark-mode .thumb-icon.doom {
+  opacity: 0;
+  transform: scale(0.2) rotate(180deg);
+}
+
+body.stark-mode .thumb-icon.stark {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+body.stark-mode .theme-label-val {
+  color: #38bdf8;
+}
+
+/* Component Overrides in Stark Mode */
+body.stark-mode .section-badge {
+  background: rgba(56, 189, 248, 0.1);
+  border-color: rgba(56, 189, 248, 0.35);
+  color: #38bdf8;
+}
+
+body.stark-mode .section-title h2 {
+  text-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+}
+
+body.stark-mode .brand-logo {
+  color: #38bdf8;
+  text-shadow: 0 0 15px rgba(56, 189, 248, 0.6);
+}
+
+body.stark-mode .glass-card {
+  border-color: rgba(56, 189, 248, 0.2);
+  background: rgba(10, 22, 38, 0.8);
+}
+
+body.stark-mode .glass-card:hover {
+  border-color: #38bdf8;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6), 0 0 25px rgba(56, 189, 248, 0.25);
+}
+
+body.stark-mode .btn-pill:hover {
+  border-color: #38bdf8;
+  color: #bae6fd;
+}
+
+body.stark-mode .btn-pill.active {
+  background: #0284c7;
+  color: #fff;
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.5);
+}
+
+body.stark-mode .count-num {
+  color: #38bdf8;
+  text-shadow: 0 0 20px rgba(56, 189, 248, 0.7);
+}
+
+body.stark-mode .countdown-wrapper {
+  border-color: rgba(56, 189, 248, 0.4);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(56, 189, 248, 0.15);
+}
+
+body.stark-mode .count-divider {
+  color: rgba(56, 189, 248, 0.4);
+}
+
+body.stark-mode .hero-badge {
+  background: rgba(56, 189, 248, 0.12);
+  border-color: rgba(56, 189, 248, 0.35);
+  color: #7dd3fc;
+}
+
+body.stark-mode .audio-player-pill {
+  border-color: rgba(56, 189, 248, 0.35);
+}
+
+body.stark-mode .audio-title {
+  color: #38bdf8;
+}
+
+body.stark-mode .v-bar {
+  background: #38bdf8;
+}
+
+/* Transitions */
+body, .glass-card, .navbar, .btn-pill, .countdown-wrapper, .modal-box, .audio-player-pill {
+  transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, color 0.4s ease;
+}
+

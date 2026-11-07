@@ -1,0 +1,205 @@
+/* =========================================================
+   AVENGERS: DOOMSDAY - BASE & DESIGN SYSTEM
+========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Noto+Sans+KR:wght@300;400;500;700;900&family=Orbitron:wght@500;700;900&family=Share+Tech+Mono&display=swap');
+
+:root {
+  /* Doom Core Colors (Dark Latveria Theme) */
+  --bg-space: #03060a;
+  --bg-primary: #070c12;
+  --bg-secondary: #0c141f;
+  --bg-card: rgba(12, 20, 31, 0.75);
+  --bg-card-hover: rgba(16, 27, 44, 0.85);
+
+  --doom-emerald: #10b981;
+  --doom-emerald-light: #34d399;
+  --doom-emerald-dark: #064e3b;
+  --doom-emerald-glow: rgba(16, 185, 129, 0.45);
+  --doom-emerald-deep: #022c22;
+
+  --latveria-gold: #f59e0b;
+  --latveria-gold-glow: rgba(245, 158, 11, 0.4);
+
+  --stark-arc-blue: #38bdf8;
+  --stark-arc-glow: rgba(56, 189, 248, 0.5);
+
+  --titanium-chrome: #cbd5e1;
+  --titanium-dark: #334155;
+  --titanium-border: rgba(148, 163, 184, 0.25);
+
+  --danger-crimson: #ef4444;
+  --incursion-purple: #a855f7;
+  --incursion-glow: rgba(168, 85, 247, 0.4);
+
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+
+  --radius-lg: 20px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+
+  --font-scifi: 'Orbitron', sans-serif;
+  --font-epic: 'Cinzel', serif;
+  --font-mono: 'Share Tech Mono', monospace;
+  --font-body: 'Noto Sans KR', -apple-system, sans-serif;
+
+  --hud-border-glow: 0 0 20px rgba(16, 185, 129, 0.25);
+  --transition-fast: 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--bg-space);
+}
+
+body {
+  background: radial-gradient(circle at 50% 10%, #0c1726 0%, #060b13 50%, #020407 100%);
+  color: var(--text-main);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+  line-height: 1.6;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #04070c;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--doom-emerald-dark);
+  border-radius: 4px;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--doom-emerald);
+}
+
+/* Background Layers */
+#incursion-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 5;
+}
+
+#confetti-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 150;
+}
+
+.multiverse-rift-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60vh;
+  background: radial-gradient(ellipse at 50% 0%, rgba(16, 185, 129, 0.12) 0%, rgba(168, 85, 247, 0.08) 40%, transparent 80%);
+  pointer-events: none;
+  z-index: 2;
+  animation: riftPulse 10s ease-in-out infinite alternate;
+}
+
+@keyframes riftPulse {
+  0% { opacity: 0.6; transform: scaleY(1); }
+  50% { opacity: 0.95; transform: scaleY(1.15) rotate(0.5deg); }
+  100% { opacity: 0.7; transform: scaleY(0.95) rotate(-0.5deg); }
+}
+
+/* Container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  position: relative;
+  z-index: 20;
+}
+
+/* Common Section Title */
+.section-title {
+  text-align: center;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.section-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 14px;
+  border-radius: 30px;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: var(--doom-emerald-light);
+  font-family: var(--font-scifi);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.section-title h2 {
+  font-family: var(--font-scifi);
+  font-size: clamp(24px, 3.5vw, 36px);
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  text-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+}
+
+.section-title p {
+  color: var(--text-muted);
+  font-size: 15px;
+  margin-top: 8px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Glass Card Baseline */
+.glass-card {
+  background: var(--bg-card);
+  border: 1px solid var(--titanium-border);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: var(--radius-lg);
+  padding: 30px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  position: relative;
+  overflow: hidden;
+  transition: all var(--transition-smooth);
+}
+
+.glass-card:hover {
+  border-color: var(--doom-emerald);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6), 0 0 25px rgba(16, 185, 129, 0.2);
+}
+
