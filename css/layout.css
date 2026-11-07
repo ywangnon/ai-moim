@@ -1,0 +1,227 @@
+/* =========================================================
+   AVENGERS: DOOMSDAY - LAYOUT & NAVIGATION
+========================================================= */
+
+/* ---------------------------------------------------------
+   1. TOP NAVIGATION / HUD CONTROL BAR
+--------------------------------------------------------- */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  position: relative;
+  z-index: 50;
+}
+
+.brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-scifi);
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--doom-emerald);
+  text-shadow: 0 0 16px var(--doom-emerald-glow);
+  text-decoration: none;
+  letter-spacing: 2px;
+  transition: all var(--transition-fast);
+}
+
+.brand-logo:hover {
+  filter: brightness(1.2);
+  transform: scale(1.02);
+}
+
+.brand-logo .logo-icon {
+  font-size: 24px;
+  display: inline-block;
+  animation: logoGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes logoGlow {
+  0% { transform: rotate(0deg) scale(1); filter: drop-shadow(0 0 4px var(--doom-emerald)); }
+  100% { transform: rotate(5deg) scale(1.1); filter: drop-shadow(0 0 14px var(--doom-emerald-light)); }
+}
+
+.brand-logo .logo-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 500;
+  letter-spacing: 3px;
+  display: block;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-pill {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--font-body);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all var(--transition-fast);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  user-select: none;
+  outline: none;
+}
+
+.btn-pill:hover {
+  background: rgba(16, 185, 129, 0.15);
+  border-color: var(--doom-emerald);
+  color: var(--doom-emerald-light);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+}
+
+.btn-pill.active {
+  background: var(--doom-emerald);
+  color: #03140d;
+  font-weight: 700;
+  box-shadow: 0 0 18px var(--doom-emerald-glow);
+}
+
+/* ---------------------------------------------------------
+   2. HERO SECTION
+--------------------------------------------------------- */
+.hero {
+  text-align: center;
+  padding: 60px 0 50px;
+  position: relative;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 18px;
+  border-radius: 30px;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  color: var(--doom-emerald-light);
+  font-family: var(--font-scifi);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 22px;
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+}
+
+.hero h1 {
+  font-family: var(--font-scifi);
+  font-size: clamp(34px, 5.5vw, 68px);
+  font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: 3px;
+  background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 35%, #10b981 75%, #059669 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 16px;
+  text-shadow: 0 0 35px rgba(16, 185, 129, 0.3);
+}
+
+.hero-subtitle {
+  font-size: clamp(16px, 2vw, 19px);
+  color: #cbd5e1;
+  max-width: 680px;
+  margin: 0 auto 35px;
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+.hero-subtitle strong {
+  color: var(--doom-emerald-light);
+  font-weight: 700;
+}
+
+/* ---------------------------------------------------------
+   3. GRID SYSTEMS
+--------------------------------------------------------- */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-bottom: 60px;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 60px;
+}
+
+/* ---------------------------------------------------------
+   4. FOOTER
+--------------------------------------------------------- */
+footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 40px 0 100px;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 13px;
+  font-family: var(--font-body);
+}
+
+footer a {
+  color: var(--doom-emerald);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+footer a:hover {
+  color: var(--doom-emerald-light);
+  text-decoration: underline;
+}
+
+.footer-disclaimer {
+  margin-top: 10px;
+  font-size: 11px;
+  color: #475569;
+}
+
+/* ---------------------------------------------------------
+   5. RESPONSIVE MEDIA QUERIES
+--------------------------------------------------------- */
+@media (max-width: 900px) {
+  .navbar {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .nav-actions {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .theme-toggle-wrapper {
+    border-left: none;
+    padding-left: 0;
+    margin-left: 0;
+  }
+  .grid-2, .grid-3 {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero {
+    padding: 40px 0 30px;
+  }
+  .btn-pill {
+    padding: 7px 12px;
+    font-size: 12px;
+  }
+}
