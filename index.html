@@ -1,0 +1,2151 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Merry Christmas & Happy New Year 🎄</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Mountains+of+Christmas:wght@700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-dark: #070d1e;
+      --bg-card: rgba(22, 33, 62, 0.7);
+      --border-gold: rgba(238, 187, 85, 0.4);
+      --gold: #f9d342;
+      --gold-light: #ffe57f;
+      --crimson: #d32f2f;
+      --crimson-glow: #ff5252;
+      --pine-green: #1b4d3e;
+      --snow-white: #f5f8fa;
+      --text-muted: #a0aec0;
+      --radius-lg: 20px;
+      --radius-md: 12px;
+      --shadow-glow: 0 0 25px rgba(249, 211, 66, 0.25);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background: radial-gradient(circle at 50% 20%, #152243 0%, #080d1e 70%, #03060c 100%);
+      color: var(--snow-white);
+      font-family: 'Noto Sans KR', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Background Canvas for Falling Snow */
+    #snow-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    /* Aurora Glow background effect */
+    .aurora-layer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 60vh;
+      background: radial-gradient(ellipse at 50% 0%, rgba(33, 150, 100, 0.15) 0%, rgba(20, 60, 100, 0.1) 40%, transparent 80%);
+      pointer-events: none;
+      z-index: 1;
+      animation: auroraWave 12s ease-in-out infinite alternate;
+    }
+
+    @keyframes auroraWave {
+      0% { opacity: 0.6; transform: scaleY(1) rotate(0deg); }
+      50% { opacity: 0.9; transform: scaleY(1.2) rotate(1deg); }
+      100% { opacity: 0.7; transform: scaleY(0.95) rotate(-1deg); }
+    }
+
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 20;
+    }
+
+    /* Floating Navigation / Control Bar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Mountains of Christmas', cursive;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--gold);
+      text-shadow: 0 0 12px rgba(249, 211, 66, 0.5);
+      text-decoration: none;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-pill {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 50px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      backdrop-filter: blur(8px);
+    }
+
+    .btn-pill:hover {
+      background: rgba(249, 211, 66, 0.15);
+      border-color: var(--gold);
+      color: var(--gold-light);
+      transform: translateY(-2px);
+    }
+
+    .btn-pill.active {
+      background: var(--gold);
+      color: #0d1322;
+      font-weight: 700;
+      box-shadow: 0 0 16px rgba(249, 211, 66, 0.4);
+    }
+
+    /* Music Player Bar (Floating) */
+    .audio-player-pill {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border-gold);
+      border-radius: 40px;
+      padding: 10px 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      z-index: 100;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(249, 211, 66, 0.15);
+    }
+
+    .audio-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .audio-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .audio-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .audio-btn {
+      background: none;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      transition: all 0.2s;
+    }
+
+    .audio-btn:hover {
+      background: var(--gold);
+      color: #0b1326;
+    }
+
+    .visualizer-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 3px;
+      height: 18px;
+    }
+
+    .v-bar {
+      width: 3px;
+      height: 4px;
+      background: var(--gold);
+      border-radius: 2px;
+      transition: height 0.15s ease;
+    }
+
+    .playing .v-bar:nth-child(1) { animation: bounceBar 0.6s infinite alternate; }
+    .playing .v-bar:nth-child(2) { animation: bounceBar 0.8s 0.2s infinite alternate; }
+    .playing .v-bar:nth-child(3) { animation: bounceBar 0.5s 0.4s infinite alternate; }
+    .playing .v-bar:nth-child(4) { animation: bounceBar 0.7s 0.1s infinite alternate; }
+
+    @keyframes bounceBar {
+      0% { height: 4px; }
+      100% { height: 18px; }
+    }
+
+    /* HERO SECTION */
+    .hero {
+      text-align: center;
+      padding: 70px 0 50px;
+      position: relative;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: 30px;
+      background: rgba(211, 47, 47, 0.2);
+      border: 1px solid rgba(255, 82, 82, 0.4);
+      color: #ff8a80;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      letter-spacing: 1px;
+    }
+
+    .hero h1 {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(38px, 6vw, 68px);
+      font-weight: 900;
+      line-height: 1.15;
+      background: linear-gradient(135deg, #ffffff 0%, #fff6cc 40%, #f9d342 80%, #e6a117 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 18px;
+      text-shadow: 0 0 35px rgba(249, 211, 66, 0.3);
+    }
+
+    .hero-subtitle {
+      font-size: 18px;
+      color: #d1d9e6;
+      max-width: 650px;
+      margin: 0 auto 35px;
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    /* COUNTDOWN TIMER */
+    .countdown-wrapper {
+      display: inline-flex;
+      gap: 16px;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(16px);
+      padding: 20px 32px;
+      border-radius: 24px;
+      border: 1px solid var(--border-gold);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      margin-bottom: 40px;
+    }
+
+    .count-unit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 70px;
+    }
+
+    .count-num {
+      font-family: 'Cinzel', serif;
+      font-size: 38px;
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1;
+      text-shadow: 0 0 15px rgba(249, 211, 66, 0.6);
+    }
+
+    .count-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    .count-divider {
+      font-size: 32px;
+      color: rgba(249, 211, 66, 0.4);
+      align-self: center;
+      padding-bottom: 10px;
+    }
+
+    /* SECTION STYLES */
+    .section-title {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .section-title h2 {
+      font-family: 'Cinzel', serif;
+      font-size: 34px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    }
+
+    .section-title p {
+      color: var(--text-muted);
+      font-size: 15px;
+      margin-top: 8px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin-bottom: 60px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 60px;
+    }
+
+    @media (max-width: 900px) {
+      .grid-2, .grid-3 {
+        grid-template-columns: 1fr;
+      }
+      .countdown-wrapper {
+        gap: 10px;
+        padding: 16px 20px;
+      }
+      .count-unit {
+        min-width: 50px;
+      }
+      .count-num {
+        font-size: 28px;
+      }
+    }
+
+    /* GLASS CARD */
+    .glass-card {
+      background: rgba(18, 28, 52, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(14px);
+      border-radius: var(--radius-lg);
+      padding: 30px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+
+    .glass-card:hover {
+      border-color: rgba(249, 211, 66, 0.35);
+    }
+
+    /* CHRISTMAS TREE & WISH SECTION */
+    .tree-stage {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 480px;
+      background: radial-gradient(circle at 50% 60%, rgba(27, 77, 62, 0.3) 0%, transparent 70%);
+      border-radius: var(--radius-lg);
+    }
+
+    .tree-svg-container {
+      position: relative;
+      width: 100%;
+      max-width: 440px;
+      height: 500px;
+    }
+
+    .tree-ornament {
+      position: absolute;
+      cursor: pointer;
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.25s;
+      transform-origin: center top;
+      filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.4));
+      user-select: none;
+    }
+
+    .tree-ornament:hover {
+      transform: scale(1.3) rotate(10deg);
+      filter: drop-shadow(0 0 12px var(--gold));
+      z-index: 50;
+    }
+
+    .tree-ornament.swing {
+      animation: swingAnimation 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes swingAnimation {
+      0% { transform: rotate(-5deg); }
+      100% { transform: rotate(5deg); }
+    }
+
+    /* Wish Box Form */
+    .wish-form-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group label {
+      font-size: 13px;
+      color: #cbd5e1;
+      font-weight: 500;
+    }
+
+    .form-input, .form-textarea, .form-select {
+      background: rgba(10, 16, 30, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      color: #fff;
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .form-input:focus, .form-textarea:focus, .form-select:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 10px rgba(249, 211, 66, 0.3);
+      background: rgba(15, 24, 45, 0.95);
+    }
+
+    .form-textarea {
+      resize: none;
+      height: 90px;
+    }
+
+    .ornament-picker {
+      display: flex;
+      gap: 10px;
+    }
+
+    .ornament-choice {
+      flex: 1;
+      padding: 10px;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.04);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .ornament-choice:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .ornament-choice.selected {
+      border-color: var(--gold);
+      background: rgba(249, 211, 66, 0.2);
+      box-shadow: 0 0 12px rgba(249, 211, 66, 0.3);
+    }
+
+    .btn-submit {
+      background: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-md);
+      padding: 14px 20px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 6px 20px rgba(211, 47, 47, 0.4);
+      transition: all 0.3s;
+    }
+
+    .btn-submit:hover {
+      background: linear-gradient(135deg, #e53935 0%, #c62828 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(211, 47, 47, 0.6);
+    }
+
+    /* Wish Feed Cards */
+    .wishes-preview-list {
+      max-height: 200px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 14px;
+      padding-right: 6px;
+    }
+
+    .wishes-preview-list::-webkit-scrollbar {
+      width: 5px;
+    }
+    .wishes-preview-list::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+    }
+
+    .wish-item-card {
+      background: rgba(255, 255, 255, 0.04);
+      border-left: 3px solid var(--gold);
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+    }
+
+    .wish-item-head {
+      display: flex;
+      justify-content: space-between;
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .wish-item-text {
+      color: #e2e8f0;
+      line-height: 1.4;
+    }
+
+    /* SANTA'S MYSTERY GIFT BOX */
+    .gift-box-center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 30px 10px;
+    }
+
+    .gift-box-3d {
+      width: 140px;
+      height: 140px;
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      animation: giftFloat 3s ease-in-out infinite;
+    }
+
+    @keyframes giftFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+
+    .gift-box-3d:hover {
+      transform: scale(1.08) rotate(3deg);
+    }
+
+    .gift-lid {
+      width: 150px;
+      height: 38px;
+      background: linear-gradient(135deg, #d32f2f, #991b1b);
+      border-radius: 8px 8px 3px 3px;
+      position: absolute;
+      top: 0;
+      left: -5px;
+      z-index: 3;
+      border: 1px solid rgba(255, 215, 0, 0.5);
+      transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .gift-lid::after {
+      content: '';
+      position: absolute;
+      width: 28px;
+      height: 100%;
+      background: linear-gradient(to bottom, #ffe082, #f9a825);
+      left: 61px;
+      top: 0;
+      box-shadow: 0 0 8px rgba(249, 168, 37, 0.6);
+    }
+
+    .gift-ribbon-bow {
+      position: absolute;
+      top: -24px;
+      left: 48px;
+      font-size: 38px;
+      color: #f9d342;
+      z-index: 4;
+      filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.5));
+    }
+
+    .gift-body {
+      width: 140px;
+      height: 110px;
+      background: linear-gradient(135deg, #b71c1c, #7f1d1d);
+      position: absolute;
+      top: 30px;
+      left: 0;
+      border-radius: 4px 4px 12px 12px;
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .gift-body::after {
+      content: '';
+      position: absolute;
+      width: 28px;
+      height: 100%;
+      background: linear-gradient(to bottom, #ffe082, #f9a825);
+      left: 56px;
+      top: 0;
+    }
+
+    .gift-box-3d.opened .gift-lid {
+      transform: translateY(-65px) rotate(-22deg) scale(0.9);
+    }
+
+    .fortune-result-box {
+      margin-top: 25px;
+      padding: 20px 24px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-gold);
+      border-radius: var(--radius-md);
+      max-width: 480px;
+      display: none;
+      animation: fadeInScale 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes fadeInScale {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .fortune-tag {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--gold);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .fortune-quote {
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 1.5;
+      color: #fff;
+    }
+
+    .fortune-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 8px;
+    }
+
+    /* CARD MAKER SECTION */
+    .card-preview-frame {
+      width: 100%;
+      height: 380px;
+      border-radius: var(--radius-lg);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 30px;
+      box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.4), 0 10px 30px rgba(0, 0, 0, 0.4);
+      border: 4px double var(--gold);
+      transition: background 0.5s ease;
+    }
+
+    .theme-night {
+      background: radial-gradient(circle at 50% 30%, #1e3a8a, #090e1a);
+    }
+    .theme-red {
+      background: radial-gradient(circle at 50% 30%, #991b1b, #450a0a);
+    }
+    .theme-forest {
+      background: radial-gradient(circle at 50% 30%, #065f46, #022c22);
+    }
+    .theme-gold {
+      background: radial-gradient(circle at 50% 30%, #854d0e, #1c1917);
+    }
+
+    .card-to {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--gold);
+    }
+
+    .card-content-text {
+      font-size: 17px;
+      line-height: 1.6;
+      color: #f1f5f9;
+      text-align: center;
+      margin: auto 0;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+      white-space: pre-wrap;
+    }
+
+    .card-from {
+      text-align: right;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--gold-light);
+    }
+
+    .card-decor-icon {
+      position: absolute;
+      font-size: 42px;
+      opacity: 0.2;
+      pointer-events: none;
+    }
+
+    .palette-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .palette-btn.active {
+      transform: scale(1.15);
+      border-color: #fff;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+
+    /* MINI GAME: GIFT CATCHER */
+    .game-container {
+      position: relative;
+      width: 100%;
+      max-width: 600px;
+      height: 340px;
+      margin: 0 auto;
+      background: rgba(10, 16, 32, 0.9);
+      border: 2px solid var(--border-gold);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      touch-action: none;
+    }
+
+    #game-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .game-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(8, 12, 24, 0.85);
+      backdrop-filter: blur(4px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      z-index: 10;
+    }
+
+    .game-score-bar {
+      position: absolute;
+      top: 14px;
+      left: 20px;
+      right: 20px;
+      display: flex;
+      justify-content: space-between;
+      font-weight: 700;
+      color: var(--gold);
+      font-size: 15px;
+      z-index: 5;
+      pointer-events: none;
+    }
+
+    /* CAROUSEL / GREETINGS SLIDER */
+    .quotes-wrapper {
+      text-align: center;
+      padding: 40px 20px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      margin-bottom: 60px;
+    }
+
+    .quote-icon {
+      font-size: 32px;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+
+    .quote-text {
+      font-size: 19px;
+      font-weight: 400;
+      line-height: 1.7;
+      max-width: 700px;
+      margin: 0 auto 12px;
+      color: #e2e8f0;
+      font-style: italic;
+    }
+
+    .quote-author {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 40px 0 90px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    footer a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+
+    /* WISH DETAIL MODAL */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      padding: 20px;
+    }
+
+    .modal-backdrop.show {
+      display: flex;
+    }
+
+    .modal-box {
+      background: linear-gradient(135deg, #182848, #0e172a);
+      border: 2px solid var(--gold);
+      border-radius: var(--radius-lg);
+      padding: 30px;
+      max-width: 420px;
+      width: 100%;
+      position: relative;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(249, 211, 66, 0.2);
+      text-align: center;
+      animation: modalPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes modalPop {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      background: none;
+      border: none;
+      color: #94a3b8;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .modal-close:hover {
+      color: #fff;
+    }
+
+    .modal-icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+      filter: drop-shadow(0 0 10px rgba(249, 211, 66, 0.5));
+    }
+
+    .modal-author {
+      font-size: 15px;
+      color: var(--gold);
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .modal-message {
+      font-size: 16px;
+      color: #f8fafc;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 16px;
+      border-radius: var(--radius-md);
+      margin-bottom: 16px;
+    }
+
+    .modal-date {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* CONFETTI CANVAS */
+    #confetti-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 150;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Effects -->
+  <canvas id="snow-canvas"></canvas>
+  <canvas id="confetti-canvas"></canvas>
+  <div class="aurora-layer"></div>
+
+  <!-- Main Container -->
+  <div class="container">
+    
+    <!-- Header -->
+    <header class="navbar">
+      <a href="#" class="brand-logo">
+        <span>🎄</span> Merry Winter
+      </a>
+      <div class="nav-actions">
+        <button id="btn-toggle-snow" class="btn-pill" title="눈 내림 조절">
+          <span>❄️</span> 눈 모드: <span>보통</span>
+        </button>
+        <button id="btn-sound-mode" class="btn-pill" title="배경 사운드 전환">
+          <span id="sound-icon">🔥</span> <span id="sound-label">모닥불 효과음</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-badge">✨ 2026 WINTER WONDERLAND ✨</div>
+      <h1>MERRY CHRISTMAS</h1>
+      <p class="hero-subtitle">
+        차가운 겨울바람 속 따스한 온기를 전하는 마법 같은 크리스마스.<br>
+        소중한 사람들과 함께 반짝이는 추억을 만들어보세요.
+      </p>
+
+      <!-- D-Day Countdown -->
+      <div class="countdown-wrapper">
+        <div class="count-unit">
+          <span class="count-num" id="d-days">00</span>
+          <span class="count-label">Days</span>
+        </div>
+        <div class="count-divider">:</div>
+        <div class="count-unit">
+          <span class="count-num" id="d-hours">00</span>
+          <span class="count-label">Hours</span>
+        </div>
+        <div class="count-divider">:</div>
+        <div class="count-unit">
+          <span class="count-num" id="d-mins">00</span>
+          <span class="count-label">Mins</span>
+        </div>
+        <div class="count-divider">:</div>
+        <div class="count-unit">
+          <span class="count-num" id="d-secs">00</span>
+          <span class="count-label">Secs</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 1: WISH TREE -->
+    <div class="section-title">
+      <h2><span>🎄</span> 반짝이는 크리스마스 소원 트리</h2>
+      <p>트리의 오너먼트를 클릭하여 다른 사람들의 소원을 확인하거나, 당신만의 따뜻한 소원을 달아보세요!</p>
+    </div>
+
+    <div class="grid-2">
+      <!-- Left: Interactive SVG Christmas Tree -->
+      <div class="glass-card tree-stage" id="tree-container">
+        <!-- SVG Tree Illustration -->
+        <svg viewBox="0 0 400 480" width="100%" height="100%" style="overflow: visible; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.5));">
+          <defs>
+            <linearGradient id="treeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#2d6a4f" />
+              <stop offset="60%" stop-color="#1b4332" />
+              <stop offset="100%" stop-color="#081c15" />
+            </linearGradient>
+            <linearGradient id="trunkGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#4a2810" />
+              <stop offset="100%" stop-color="#2c1808" />
+            </linearGradient>
+            <radialGradient id="starGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#fff59d" />
+              <stop offset="60%" stop-color="#fbc02d" />
+              <stop offset="100%" stop-color="#f57f17" />
+            </radialGradient>
+          </defs>
+
+          <!-- Tree Trunk -->
+          <rect x="180" y="410" width="40" height="50" rx="4" fill="url(#trunkGrad)" />
+
+          <!-- Bottom Tier -->
+          <path d="M 70 410 C 130 380, 270 380, 330 410 C 310 350, 290 320, 270 320 C 290 320, 305 320, 300 310 C 260 250, 140 250, 100 310 C 95 320, 110 320, 130 320 C 110 320, 90 350, 70 410 Z" fill="url(#treeGrad)" />
+          
+          <!-- Middle Tier -->
+          <path d="M 105 320 C 150 295, 250 295, 295 320 C 280 270, 260 240, 240 240 C 255 240, 265 235, 260 225 C 230 175, 170 175, 140 225 C 135 235, 145 240, 160 240 C 140 240, 120 270, 105 320 Z" fill="url(#treeGrad)" />
+
+          <!-- Top Tier -->
+          <path d="M 135 230 C 165 210, 235 210, 265 230 C 250 170, 230 135, 200 95 C 170 135, 150 170, 135 230 Z" fill="url(#treeGrad)" />
+
+          <!-- Garland Strings -->
+          <path d="M 160 160 Q 200 185 240 165" fill="none" stroke="#fef08a" stroke-width="2.5" stroke-dasharray="4,6" opacity="0.8" />
+          <path d="M 125 250 Q 200 295 275 255" fill="none" stroke="#fef08a" stroke-width="2.5" stroke-dasharray="4,6" opacity="0.8" />
+          <path d="M 90 350 Q 200 405 310 355" fill="none" stroke="#fef08a" stroke-width="2.5" stroke-dasharray="4,6" opacity="0.8" />
+
+          <!-- Big Top Star -->
+          <g transform="translate(200, 85)" style="cursor: pointer;" id="tree-top-star">
+            <circle cx="0" cy="0" r="28" fill="url(#starGlow)" opacity="0.3" filter="blur(6px)" />
+            <polygon points="0,-24 7,-7 24,-7 11,4 16,21 0,11 -16,21 -11,4 -24,-7 -7,-7" fill="url(#starGlow)" filter="drop-shadow(0 0 10px #ffe082)" />
+          </g>
+        </svg>
+
+        <!-- Dynamic Ornaments overlay rendered by JS -->
+        <div id="ornaments-layer" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: auto;"></div>
+      </div>
+
+      <!-- Right: Wish Form & Recent Wishes -->
+      <div class="glass-card">
+        <h3 style="font-size: 20px; color: var(--gold); margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+          <span>✍️</span> 크리스마스 소원 빌기
+        </h3>
+        
+        <form id="wish-form" class="wish-form-wrapper">
+          <div class="form-group">
+            <label>보내는 사람 (이름 또는 닉네임)</label>
+            <input type="text" id="wish-author" class="form-input" placeholder="예: 산타의 작은 요정" maxlength="15" required>
+          </div>
+
+          <div class="form-group">
+            <label>오너먼트 모양 선택</label>
+            <div class="ornament-picker">
+              <div class="ornament-choice selected" data-type="🔴">🔴</div>
+              <div class="ornament-choice" data-type="⭐">⭐</div>
+              <div class="ornament-choice" data-type="🔔">🔔</div>
+              <div class="ornament-choice" data-type="🎁">🎁</div>
+              <div class="ornament-choice" data-type="🧦">🧦</div>
+              <div class="ornament-choice" data-type="⛄">⛄</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>나의 소원 / 전하고픈 메시지</label>
+            <textarea id="wish-message" class="form-textarea" placeholder="올겨울 모두가 따뜻하고 건강하기를 바랍니다..." maxlength="120" required></textarea>
+          </div>
+
+          <button type="submit" class="btn-submit">
+            <span>🎄</span> 트리에 소원 걸기
+          </button>
+        </form>
+
+        <div style="margin-top: 24px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 14px;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 13px; font-weight: 600; color: #94a3b8;">최근 걸린 소원 목록</span>
+            <span id="wishes-count" style="font-size: 12px; color: var(--gold);">6개의 소원</span>
+          </div>
+          <div class="wishes-preview-list" id="wishes-list">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 2: SANTA'S LUCKY GIFT BOX -->
+    <div class="section-title">
+      <h2><span>🎁</span> 산타의 깜짝 선물 상자</h2>
+      <p>상자를 터치하여 뚜껑을 열어보세요! 당신을 위한 홀리데이 행운의 메시지와 쿠폰이 들어있어요.</p>
+    </div>
+
+    <div class="glass-card" style="margin-bottom: 60px;">
+      <div class="gift-box-center">
+        <div class="gift-box-3d" id="gift-box" title="클릭해서 열어보세요!">
+          <div class="gift-ribbon-bow">🎀</div>
+          <div class="gift-lid"></div>
+          <div class="gift-body"></div>
+        </div>
+
+        <p id="gift-prompt" style="margin-top: 20px; font-size: 14px; color: var(--gold-light); font-weight: 500;">
+          👉 상자를 탭하여 행운을 확인하세요!
+        </p>
+
+        <!-- Unboxed Fortune Result -->
+        <div class="fortune-result-box" id="fortune-result">
+          <div class="fortune-tag">SANTA'S HOLIDAY BLESSING</div>
+          <div class="fortune-quote" id="fortune-quote">"올겨울 당신이 꿈꾸던 가장 마법 같은 일이 눈앞에 펼쳐질 거예요!"</div>
+          <div class="fortune-sub" id="fortune-sub">🎁 특별 선물: 마음 따뜻한 핫초코 & 포근한 휴식 1회권</div>
+          <button id="btn-re-gift" class="btn-pill" style="margin-top: 16px;">
+            <span>🔄</span> 다른 선물 다시 뽑기
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 3: DIY CHRISTMAS CARD MAKER -->
+    <div class="section-title">
+      <h2><span>💌</span> 나만의 크리스마스 카드 제작기</h2>
+      <p>소중한 사람에게 보낼 특별한 엽서를 직접 디자인하고 이미지로 저장해보세요.</p>
+    </div>
+
+    <div class="grid-2">
+      <!-- Left: Live Card Preview -->
+      <div class="glass-card" style="display: flex; flex-direction: column; align-items: center;">
+        <div id="card-preview" class="card-preview-frame theme-night">
+          <span class="card-decor-icon" style="top: 15px; right: 20px;">❄️</span>
+          <span class="card-decor-icon" style="bottom: 15px; left: 20px;">🎄</span>
+          <div class="card-to" id="preview-to">Dear. 사랑하는 친구에게</div>
+          <div class="card-content-text" id="preview-text">새하얀 눈처럼 맑고 고운 일들만 가득하길 바라며, 올 한 해 정말 수고 많았어! 행복한 성탄절 보내렴.</div>
+          <div class="card-from" id="preview-from">From. 산타의 친구</div>
+        </div>
+
+        <button id="btn-download-card" class="btn-submit" style="width: 100%; margin-top: 20px; background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+          <span>💾</span> 완성된 카드 이미지 다운로드
+        </button>
+      </div>
+
+      <!-- Right: Card Editor Controls -->
+      <div class="glass-card">
+        <h3 style="font-size: 18px; color: var(--gold); margin-bottom: 16px;">🎨 카드 디자인 & 문구 작성</h3>
+        
+        <div class="form-group" style="margin-bottom: 14px;">
+          <label>카드 테마 배경</label>
+          <div style="display: flex; gap: 12px; margin-top: 4px;">
+            <button class="palette-btn active" data-theme="theme-night" style="background: #1e3a8a;" title="미드나잇 블루"></button>
+            <button class="palette-btn" data-theme="theme-red" style="background: #991b1b;" title="클래식 크림슨"></button>
+            <button class="palette-btn" data-theme="theme-forest" style="background: #065f46;" title="포레스트 그린"></button>
+            <button class="palette-btn" data-theme="theme-gold" style="background: #854d0e;" title="앤틱 골드"></button>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 14px;">
+          <label>받는 사람</label>
+          <input type="text" id="input-card-to" class="form-input" value="사랑하는 친구에게" maxlength="20">
+        </div>
+
+        <div class="form-group" style="margin-bottom: 14px;">
+          <label>전하는 메시지</label>
+          <textarea id="input-card-msg" class="form-textarea" style="height: 100px;">새하얀 눈처럼 맑고 고운 일들만 가득하길 바라며, 올 한 해 정말 수고 많았어! 행복한 성탄절 보내렴.</textarea>
+        </div>
+
+        <div class="form-group">
+          <label>보내는 사람</label>
+          <input type="text" id="input-card-from" class="form-input" value="산타의 친구" maxlength="20">
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 4: MINI GAME: GIFT CATCHER -->
+    <div class="section-title">
+      <h2><span>🕹️</span> 루돌프의 선물 바구니 게임</h2>
+      <p>하늘에서 떨어지는 선물과 별을 바구니로 받아보세요! (마우스 또는 터치로 썰매 이동)</p>
+    </div>
+
+    <div class="glass-card" style="margin-bottom: 60px;">
+      <div class="game-container" id="game-stage">
+        <div class="game-score-bar">
+          <div>점수: <span id="game-score">0</span></div>
+          <div>최고 기록: <span id="game-high">0</span></div>
+        </div>
+
+        <canvas id="game-canvas"></canvas>
+
+        <div class="game-overlay" id="game-start-overlay">
+          <div style="font-size: 42px;">🛷🎁</div>
+          <h3 style="font-size: 22px; color: var(--gold); font-family: 'Cinzel', serif;">Gift Catcher Challenge</h3>
+          <p style="font-size: 14px; color: #cbd5e1; text-align: center;">떨어지는 선물(🎁, ⭐)을 받고 얼음 폭탄(💣)을 피하세요!</p>
+          <button id="btn-start-game" class="btn-submit" style="padding: 10px 28px;">
+            <span>🚀</span> 게임 시작
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 5: HOLIDAY QUOTE CAROUSEL -->
+    <div class="quotes-wrapper">
+      <div class="quote-icon">“</div>
+      <div class="quote-text" id="carousel-quote">
+        "크리스마스는 단순히 날짜가 아닙니다. 그것은 따뜻함과 사랑, 그리고 감사를 나누는 마음의 상태입니다."
+      </div>
+      <div class="quote-author" id="carousel-author">— 메리 앨런 체이스 (Mary Ellen Chase)</div>
+      <div style="display: flex; justify-content: center; gap: 8px; margin-top: 18px;">
+        <span class="btn-pill" id="btn-prev-quote" style="padding: 6px 12px; cursor: pointer;">◀</span>
+        <span class="btn-pill" id="btn-next-quote" style="padding: 6px 12px; cursor: pointer;">▶</span>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      <p style="font-size: 16px; color: var(--gold-light); margin-bottom: 8px;">
+        🎅 Wishing You a Warm, Peaceful and Joyful Christmas & New Year 🎄
+      </p>
+      <p>© 2026 Winter Holiday Special. Crafted with pure CSS & Web Audio for Christmas Celebrations.</p>
+    </footer>
+
+  </div>
+
+  <!-- FLOATING CAROL & AMBIENT JUKEBOX -->
+  <div class="audio-player-pill" id="audio-pill">
+    <div class="visualizer-bars" id="audio-visualizer">
+      <div class="v-bar"></div>
+      <div class="v-bar"></div>
+      <div class="v-bar"></div>
+      <div class="v-bar"></div>
+    </div>
+    <div class="audio-info">
+      <span class="audio-title" id="music-title">
+        <span>🔔</span> Jingle Bells (오르골)
+      </span>
+      <span class="audio-sub" id="music-status">정지됨 • 클릭하여 재생</span>
+    </div>
+    <button class="audio-btn" id="btn-play-music" title="재생/일시정지">▶</button>
+    <button class="audio-btn" id="btn-next-music" title="다음 곡">⏭</button>
+  </div>
+
+  <!-- WISH POPUP MODAL -->
+  <div class="modal-backdrop" id="wish-modal">
+    <div class="modal-box">
+      <button class="modal-close" id="btn-close-modal">&times;</button>
+      <div class="modal-icon" id="modal-icon">🎄</div>
+      <div class="modal-author" id="modal-author">익명의 싼타</div>
+      <div class="modal-message" id="modal-message">모두 건강하고 웃음 가득한 성탄절 보내시길 바랍니다!</div>
+      <div class="modal-date" id="modal-date">2026.12.25</div>
+    </div>
+  </div>
+
+  <script>
+    /* =========================================================
+       1. D-DAY COUNTDOWN TO CHRISTMAS
+    ========================================================= */
+    function updateCountdown() {
+      const now = new Date();
+      let year = now.getFullYear();
+      let xMas = new Date(year, 11, 25, 0, 0, 0); // Dec 25
+      
+      // If past Dec 25 this year, target next year
+      if (now > xMas) {
+        xMas = new Date(year + 1, 11, 25, 0, 0, 0);
+      }
+
+      const diff = xMas - now;
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const mins = Math.floor((diff / 1000 / 60) % 60);
+      const secs = Math.floor((diff / 1000) % 60);
+
+      document.getElementById('d-days').textContent = String(days).padStart(2, '0');
+      document.getElementById('d-hours').textContent = String(hours).padStart(2, '0');
+      document.getElementById('d-mins').textContent = String(mins).padStart(2, '0');
+      document.getElementById('d-secs').textContent = String(secs).padStart(2, '0');
+    }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    /* =========================================================
+       2. REALISTIC FALLING SNOW CANVAS ENGINE
+    ========================================================= */
+    const snowCanvas = document.getElementById('snow-canvas');
+    const snowCtx = snowCanvas.getContext('2d');
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    snowCanvas.width = width;
+    snowCanvas.height = height;
+
+    window.addEventListener('resize', () => {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      snowCanvas.width = width;
+      snowCanvas.height = height;
+    });
+
+    let snowDensityModes = ['보통', '폭설', '잔잔함'];
+    let currentSnowModeIdx = 0;
+    let flakeCounts = { '보통': 90, '폭설': 200, '잔잔함': 40 };
+
+    let flakes = [];
+    function createFlake() {
+      return {
+        x: Math.random() * width,
+        y: Math.random() * height - height,
+        radius: Math.random() * 3.5 + 1.2,
+        density: Math.random() + 0.5,
+        alpha: Math.random() * 0.7 + 0.3,
+        speedX: Math.random() * 1 - 0.5,
+        speedY: Math.random() * 1.5 + 1
+      };
+    }
+
+    function initFlakes(count) {
+      flakes = [];
+      for (let i = 0; i < count; i++) {
+        flakes.push(createFlake());
+        flakes[i].y = Math.random() * height; // initial spread
+      }
+    }
+    initFlakes(flakeCounts['보통']);
+
+    let angle = 0;
+    function renderSnow() {
+      snowCtx.clearRect(0, 0, width, height);
+      angle += 0.01;
+
+      for (let i = 0; i < flakes.length; i++) {
+        const f = flakes[i];
+        f.y += f.speedY;
+        f.x += Math.sin(angle + f.density) * 1.2 + f.speedX;
+
+        if (f.y > height + 10) {
+          f.y = -10;
+          f.x = Math.random() * width;
+        }
+        if (f.x > width + 10) f.x = -10;
+        if (f.x < -10) f.x = width + 10;
+
+        snowCtx.beginPath();
+        snowCtx.arc(f.x, f.y, f.radius, 0, Math.PI * 2, false);
+        snowCtx.fillStyle = `rgba(255, 255, 255, ${f.alpha})`;
+        snowCtx.shadowColor = 'rgba(255, 255, 255, 0.8)';
+        snowCtx.shadowBlur = f.radius > 2.5 ? 6 : 0;
+        snowCtx.fill();
+      }
+      requestAnimationFrame(renderSnow);
+    }
+    requestAnimationFrame(renderSnow);
+
+    document.getElementById('btn-toggle-snow').addEventListener('click', (e) => {
+      currentSnowModeIdx = (currentSnowModeIdx + 1) % snowDensityModes.length;
+      const mode = snowDensityModes[currentSnowModeIdx];
+      e.currentTarget.querySelector('span:last-child').textContent = mode;
+      initFlakes(flakeCounts[mode]);
+    });
+
+    /* =========================================================
+       3. WEB AUDIO API CHIME & CAROL SYNTHESIZER + FIREPLACE
+    ========================================================= */
+    let audioCtx = null;
+    let isPlaying = false;
+    let currentTrackIdx = 0;
+    let timerSequence = null;
+
+    // Frequencies of Musical Notes (Hz)
+    const NOTES = {
+      C4: 261.63, D4: 293.66, E4: 329.63, F4: 349.23, G4: 392.00, A4: 440.00, B4: 493.88,
+      C5: 523.25, D5: 587.33, E5: 659.25, F5: 698.46, G5: 783.99, A5: 880.00, B5: 987.77,
+      REST: 0
+    };
+
+    // Tracks: [note, duration in seconds]
+    const TRACKS = [
+      {
+        title: "🔔 Jingle Bells (징글벨)",
+        tempo: 0.28,
+        melody: [
+          ['E4', 1], ['E4', 1], ['E4', 2],
+          ['E4', 1], ['E4', 1], ['E4', 2],
+          ['E4', 1], ['G4', 1], ['C4', 1.5], ['D4', 0.5], ['E4', 4],
+          ['F4', 1], ['F4', 1], ['F4', 1.5], ['F4', 0.5],
+          ['F4', 1], ['E4', 1], ['E4', 1], ['E4', 0.5], ['E4', 0.5],
+          ['E4', 1], ['D4', 1], ['D4', 1], ['E4', 1], ['D4', 2], ['G4', 2],
+          ['E4', 1], ['E4', 1], ['E4', 2],
+          ['E4', 1], ['E4', 1], ['E4', 2],
+          ['E4', 1], ['G4', 1], ['C4', 1.5], ['D4', 0.5], ['E4', 4],
+          ['F4', 1], ['F4', 1], ['F4', 1.5], ['F4', 0.5],
+          ['F4', 1], ['E4', 1], ['E4', 1], ['E4', 0.5], ['E4', 0.5],
+          ['G4', 1], ['G4', 1], ['F4', 1], ['D4', 1], ['C4', 4]
+        ]
+      },
+      {
+        title: "🌟 We Wish You a Merry Christmas",
+        tempo: 0.32,
+        melody: [
+          ['D4', 1], ['G4', 1], ['G4', 0.5], ['A4', 0.5], ['G4', 0.5], ['F4', 0.5],
+          ['E4', 1], ['E4', 1], ['E4', 1],
+          ['A4', 1], ['A4', 0.5], ['B4', 0.5], ['A4', 0.5], ['G4', 0.5],
+          ['F4', 1], ['D4', 1], ['D4', 1],
+          ['B4', 1], ['B4', 0.5], ['C5', 0.5], ['B4', 0.5], ['A4', 0.5],
+          ['G4', 1], ['E4', 1], ['D4', 0.5], ['D4', 0.5],
+          ['E4', 1], ['A4', 1], ['F4', 1], ['G4', 3]
+        ]
+      },
+      {
+        title: "✨ Silent Night (고요한 밤 거룩한 밤)",
+        tempo: 0.45,
+        melody: [
+          ['G4', 1.5], ['A4', 0.5], ['G4', 1], ['E4', 3],
+          ['G4', 1.5], ['A4', 0.5], ['G4', 1], ['E4', 3],
+          ['D5', 2], ['D5', 1], ['B4', 3],
+          ['C5', 2], ['C5', 1], ['G4', 3],
+          ['A4', 2], ['A4', 1], ['C5', 1.5], ['B4', 0.5], ['A4', 1],
+          ['G4', 1.5], ['A4', 0.5], ['G4', 1], ['E4', 3],
+          ['A4', 2], ['A4', 1], ['C5', 1.5], ['B4', 0.5], ['A4', 1],
+          ['G4', 1.5], ['A4', 0.5], ['G4', 1], ['E4', 3],
+          ['D5', 2], ['D5', 1], ['F5', 1.5], ['D5', 0.5], ['B4', 1],
+          ['C5', 3], ['E5', 3],
+          ['C5', 1.5], ['G4', 0.5], ['E4', 1], ['G4', 1.5], ['F4', 0.5], ['D4', 1], ['C4', 4]
+        ]
+      }
+    ];
+
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    // Play a gentle music box / celesta tone
+    function playCelestaTone(freq, duration) {
+      if (!audioCtx || freq === 0) return;
+
+      const osc = audioCtx.createOscillator();
+      const osc2 = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+
+      // Sine + soft Triangle harmonic for that warm chime sound
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+      osc2.type = 'triangle';
+      osc2.frequency.setValueAtTime(freq * 2, audioCtx.currentTime); // 1 octave overtone
+
+      const now = audioCtx.currentTime;
+      gain.gain.setValueAtTime(0.001, now);
+      gain.gain.exponentialRampToValueAtTime(0.28, now + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + Math.max(duration, 0.4));
+
+      osc.connect(gain);
+      osc2.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      osc.start(now);
+      osc2.start(now);
+      osc.stop(now + Math.max(duration, 0.4) + 0.1);
+      osc2.stop(now + Math.max(duration, 0.4) + 0.1);
+    }
+
+    let currentNoteIndex = 0;
+    function scheduleMelody() {
+      if (!isPlaying) return;
+      const track = TRACKS[currentTrackIdx];
+      if (currentNoteIndex >= track.melody.length) {
+        currentNoteIndex = 0; // loop
+      }
+
+      const [noteKey, durRatio] = track.melody[currentNoteIndex];
+      const duration = durRatio * track.tempo;
+      const freq = NOTES[noteKey] || 0;
+
+      playCelestaTone(freq, duration * 0.95);
+      currentNoteIndex++;
+
+      timerSequence = setTimeout(scheduleMelody, duration * 1000);
+    }
+
+    function startMusic() {
+      initAudio();
+      isPlaying = true;
+      document.getElementById('btn-play-music').textContent = '⏸';
+      document.getElementById('music-status').textContent = '연주 중 • 멜로디 오르골';
+      document.getElementById('audio-visualizer').classList.add('playing');
+      currentNoteIndex = 0;
+      scheduleMelody();
+    }
+
+    function stopMusic() {
+      isPlaying = false;
+      clearTimeout(timerSequence);
+      document.getElementById('btn-play-music').textContent = '▶';
+      document.getElementById('music-status').textContent = '정지됨 • 클릭하여 재생';
+      document.getElementById('audio-visualizer').classList.remove('playing');
+    }
+
+    document.getElementById('btn-play-music').addEventListener('click', () => {
+      if (isPlaying) stopMusic();
+      else startMusic();
+    });
+
+    document.getElementById('btn-next-music').addEventListener('click', () => {
+      currentTrackIdx = (currentTrackIdx + 1) % TRACKS.length;
+      document.getElementById('music-title').innerHTML = `<span>🔔</span> ${TRACKS[currentTrackIdx].title}`;
+      if (isPlaying) {
+        clearTimeout(timerSequence);
+        currentNoteIndex = 0;
+        scheduleMelody();
+      }
+    });
+
+    // Fireplace Ambient Sound Simulator
+    let fireplaceNode = null;
+    let isFireplaceOn = false;
+
+    function toggleFireplace() {
+      initAudio();
+      if (isFireplaceOn) {
+        if (fireplaceNode) {
+          fireplaceNode.stop();
+          fireplaceNode.disconnect();
+          fireplaceNode = null;
+        }
+        isFireplaceOn = false;
+        document.getElementById('btn-sound-mode').classList.remove('active');
+        document.getElementById('sound-label').textContent = '모닥불 효과음';
+      } else {
+        // Brown noise generation + random crackles
+        const bufferSize = audioCtx.sampleRate * 2;
+        const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+        const output = noiseBuffer.getChannelData(0);
+        let lastOut = 0.0;
+        for (let i = 0; i < bufferSize; i++) {
+          const white = Math.random() * 2 - 1;
+          output[i] = (lastOut + (0.02 * white)) / 1.02;
+          lastOut = output[i];
+          output[i] *= 2.5; // brownian noise
+          // Add random crackle pops
+          if (Math.random() < 0.0006) {
+            output[i] += (Math.random() - 0.5) * 4;
+          }
+        }
+
+        const whiteNoise = audioCtx.createBufferSource();
+        whiteNoise.buffer = noiseBuffer;
+        whiteNoise.loop = true;
+
+        const filter = audioCtx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.value = 650;
+
+        const gain = audioCtx.createGain();
+        gain.gain.value = 0.35;
+
+        whiteNoise.connect(filter);
+        filter.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        whiteNoise.start();
+        fireplaceNode = whiteNoise;
+        isFireplaceOn = true;
+        document.getElementById('btn-sound-mode').classList.add('active');
+        document.getElementById('sound-label').textContent = '모닥불 재생 중 🔥';
+      }
+    }
+
+    document.getElementById('btn-sound-mode').addEventListener('click', toggleFireplace);
+
+    /* =========================================================
+       4. INTERACTIVE WISH TREE & ORNAMENTS
+    ========================================================= */
+    const DEFAULT_WISHES = [
+      { id: 1, author: "산타의 요정", type: "⭐", text: "2026년에는 바라는 모든 꿈들이 반짝반짝 이루어지길!", date: "2026.12.01", x: 49, y: 35 },
+      { id: 2, author: "눈사람 빌리", type: "🔴", text: "추운 겨울이지만 따뜻한 온기가 가득한 성탄절 되세요 ⛄", date: "2026.12.02", x: 38, y: 52 },
+      { id: 3, author: "루돌프", type: "🔔", text: "올 한 해도 정말 수고 많으셨어요! 맛있는 것 많이 드세요 🍰", date: "2026.12.03", x: 60, y: 50 },
+      { id: 4, author: "겨울 아이", type: "🎁", text: "산타 할아버지 올해는 가족 모두의 건강을 선물해주세요!", date: "2026.12.04", x: 30, y: 70 },
+      { id: 5, author: "해피니스", type: "🧦", text: "따뜻한 양말 속에 행복과 사랑만 가득 담기길 바랍니다.", date: "2026.12.05", x: 50, y: 68 },
+      { id: 6, author: "메리", type: "⛄", text: "화이트 크리스마스를 기대하며 모두 메리 크리스마스! ✨", date: "2026.12.06", x: 68, y: 72 }
+    ];
+
+    let wishes = JSON.parse(localStorage.getItem('christmas_wishes_2026')) || DEFAULT_WISHES;
+
+    function saveWishes() {
+      localStorage.setItem('christmas_wishes_2026', JSON.stringify(wishes));
+    }
+
+    const ornamentsLayer = document.getElementById('ornaments-layer');
+    const wishesListEl = document.getElementById('wishes-list');
+    const wishesCountEl = document.getElementById('wishes-count');
+
+    function renderOrnaments() {
+      ornamentsLayer.innerHTML = '';
+      wishesListEl.innerHTML = '';
+      wishesCountEl.textContent = `${wishes.length}개의 소원`;
+
+      wishes.forEach((w) => {
+        // Create tree ornament element
+        const el = document.createElement('div');
+        el.className = 'tree-ornament swing';
+        el.textContent = w.type;
+        el.style.left = `${w.x}%`;
+        el.style.top = `${w.y}%`;
+        el.style.fontSize = w.type === '⭐' ? '28px' : '24px';
+        el.title = `${w.author}님의 소원 (클릭하여 보기)`;
+
+        el.addEventListener('click', (e) => {
+          e.stopPropagation();
+          showWishModal(w);
+        });
+
+        ornamentsLayer.appendChild(el);
+
+        // Add to recent wishes list
+        const item = document.createElement('div');
+        item.className = 'wish-item-card';
+        item.innerHTML = `
+          <div class="wish-item-head">
+            <span>${w.type} ${w.author}</span>
+            <span style="font-size: 11px; color: #94a3b8;">${w.date}</span>
+          </div>
+          <div class="wish-item-text">${w.text}</div>
+        `;
+        item.style.cursor = 'pointer';
+        item.addEventListener('click', () => showWishModal(w));
+        wishesListEl.appendChild(item);
+      });
+    }
+
+    renderOrnaments();
+
+    // Top Star Easter Egg Click
+    document.getElementById('tree-top-star').addEventListener('click', () => {
+      triggerConfetti(window.innerWidth / 2, window.innerHeight * 0.4);
+      playCelestaTone(NOTES.C5, 0.4);
+      setTimeout(() => playCelestaTone(NOTES.G5, 0.6), 150);
+    });
+
+    // Ornament Type Picker
+    let selectedOrnament = '🔴';
+    document.querySelectorAll('.ornament-choice').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.ornament-choice').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        selectedOrnament = btn.dataset.type;
+      });
+    });
+
+    // Add new Wish
+    document.getElementById('wish-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const author = document.getElementById('wish-author').value.trim();
+      const msg = document.getElementById('wish-message').value.trim();
+      if (!author || !msg) return;
+
+      // Random position inside the conical tree zone
+      const yPercent = Math.floor(Math.random() * 55) + 30; // 30% to 85%
+      const halfWidthAtY = ((yPercent - 20) / 70) * 35; // conical width
+      const xPercent = 50 + (Math.random() * (halfWidthAtY * 2) - halfWidthAtY);
+
+      const today = new Date();
+      const dateStr = `${today.getFullYear()}.${String(today.getMonth() + 1).padStart(2, '0')}.${String(today.getDate()).padStart(2, '0')}`;
+
+      const newWish = {
+        id: Date.now(),
+        author: author,
+        type: selectedOrnament,
+        text: msg,
+        date: dateStr,
+        x: Math.round(xPercent),
+        y: Math.round(yPercent)
+      };
+
+      wishes.unshift(newWish);
+      saveWishes();
+      renderOrnaments();
+
+      // Trigger celebrate effects
+      triggerConfetti();
+      playCelestaTone(NOTES.E5, 0.3);
+
+      document.getElementById('wish-author').value = '';
+      document.getElementById('wish-message').value = '';
+      alert('🎄 트리에 소원이 예쁘게 걸렸습니다!');
+    });
+
+    // Wish Detail Modal
+    const modalBackdrop = document.getElementById('wish-modal');
+    function showWishModal(wish) {
+      document.getElementById('modal-icon').textContent = wish.type;
+      document.getElementById('modal-author').textContent = `${wish.author}님의 성탄 소원`;
+      document.getElementById('modal-message').textContent = wish.text;
+      document.getElementById('modal-date').textContent = `작성일: ${wish.date}`;
+      modalBackdrop.classList.add('show');
+    }
+
+    document.getElementById('btn-close-modal').addEventListener('click', () => {
+      modalBackdrop.classList.remove('show');
+    });
+    modalBackdrop.addEventListener('click', (e) => {
+      if (e.target === modalBackdrop) modalBackdrop.classList.remove('show');
+    });
+
+    /* =========================================================
+       5. SANTA'S LUCKY GIFT BOX & FORTUNE GENERATOR
+    ========================================================= */
+    const FORTUNES = [
+      {
+        quote: "올겨울 당신이 소망하던 가장 마법 같은 일이 눈앞에 펼쳐질 거예요!",
+        sub: "🎁 특별 선물: 포근한 핫초코 & 따스한 힐링 1회권"
+      },
+      {
+        quote: "산타가 특별히 준비한 보너스 행운! 소중한 사람과의 반가운 만남이 기다립니다.",
+        sub: "🎁 특별 선물: 행복 가득한 겨울 산책 쿠폰"
+      },
+      {
+        quote: "당신의 미소가 이번 크리스마스에 가장 밝게 빛나는 크리스마스 트리입니다.",
+        sub: "🎁 특별 선물: 2026년 무한 행운 & 축복 티켓"
+      },
+      {
+        quote: "올 한 해 쉬지 않고 달려온 당신, 최고의 선물은 바로 편안한 휴식입니다.",
+        sub: "🎁 특별 선물: 걱정 없는 꿀잠 & 귤 까먹기 쿠폰"
+      },
+      {
+        quote: "새해에는 생각지도 못한 멋진 기회와 눈부신 성공이 당신을 찾아옵니다!",
+        sub: "🎁 특별 선물: 대박 기운 가득한 황금 열쇠"
+      }
+    ];
+
+    const giftBox = document.getElementById('gift-box');
+    const giftPrompt = document.getElementById('gift-prompt');
+    const fortuneResult = document.getElementById('fortune-result');
+    const fortuneQuote = document.getElementById('fortune-quote');
+    const fortuneSub = document.getElementById('fortune-sub');
+    let isBoxOpened = false;
+
+    function openGiftBox() {
+      if (isBoxOpened) return;
+      isBoxOpened = true;
+      giftBox.classList.add('opened');
+      triggerConfetti();
+
+      // Sound
+      initAudio();
+      playCelestaTone(NOTES.C5, 0.15);
+      setTimeout(() => playCelestaTone(NOTES.E5, 0.15), 100);
+      setTimeout(() => playCelestaTone(NOTES.G5, 0.3), 200);
+
+      const randomFortune = FORTUNES[Math.floor(Math.random() * FORTUNES.length)];
+      fortuneQuote.textContent = `"${randomFortune.quote}"`;
+      fortuneSub.textContent = randomFortune.sub;
+
+      giftPrompt.style.display = 'none';
+      fortuneResult.style.display = 'block';
+    }
+
+    giftBox.addEventListener('click', openGiftBox);
+
+    document.getElementById('btn-re-gift').addEventListener('click', () => {
+      isBoxOpened = false;
+      giftBox.classList.remove('opened');
+      fortuneResult.style.display = 'none';
+      giftPrompt.style.display = 'block';
+    });
+
+    /* =========================================================
+       6. DIY CHRISTMAS CARD MAKER & IMAGE DOWNLOAD
+    ========================================================= */
+    const cardPreview = document.getElementById('card-preview');
+    const previewTo = document.getElementById('preview-to');
+    const previewText = document.getElementById('preview-text');
+    const previewFrom = document.getElementById('preview-from');
+
+    const inputCardTo = document.getElementById('input-card-to');
+    const inputCardMsg = document.getElementById('input-card-msg');
+    const inputCardFrom = document.getElementById('input-card-from');
+
+    inputCardTo.addEventListener('input', () => {
+      previewTo.textContent = `Dear. ${inputCardTo.value || '소중한 분께'}`;
+    });
+
+    inputCardMsg.addEventListener('input', () => {
+      previewText.textContent = inputCardMsg.value || '메리 크리스마스 & 해피 뉴 이어!';
+    });
+
+    inputCardFrom.addEventListener('input', () => {
+      previewFrom.textContent = `From. ${inputCardFrom.value || '당신의 친구'}`;
+    });
+
+    // Theme selector
+    let currentThemeClass = 'theme-night';
+    document.querySelectorAll('.palette-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.palette-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        cardPreview.classList.remove('theme-night', 'theme-red', 'theme-forest', 'theme-gold');
+        currentThemeClass = btn.dataset.theme;
+        cardPreview.classList.add(currentThemeClass);
+      });
+    });
+
+    // Download Card as PNG Image using HTML Canvas
+    document.getElementById('btn-download-card').addEventListener('click', () => {
+      const c = document.createElement('canvas');
+      c.width = 800;
+      c.height = 540;
+      const ctx = c.getContext('2d');
+
+      // Gradient background based on theme
+      const grad = ctx.createRadialGradient(400, 200, 50, 400, 270, 450);
+      if (currentThemeClass === 'theme-night') {
+        grad.addColorStop(0, '#1e3a8a');
+        grad.addColorStop(1, '#090e1a');
+      } else if (currentThemeClass === 'theme-red') {
+        grad.addColorStop(0, '#991b1b');
+        grad.addColorStop(1, '#450a0a');
+      } else if (currentThemeClass === 'theme-forest') {
+        grad.addColorStop(0, '#065f46');
+        grad.addColorStop(1, '#022c22');
+      } else {
+        grad.addColorStop(0, '#854d0e');
+        grad.addColorStop(1, '#1c1917');
+      }
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, 800, 540);
+
+      // Gold Border Frame
+      ctx.strokeStyle = '#f9d342';
+      ctx.lineWidth = 6;
+      ctx.strokeRect(20, 20, 760, 500);
+
+      ctx.strokeStyle = 'rgba(249, 211, 66, 0.4)';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(28, 28, 744, 484);
+
+      // Corner Stars
+      ctx.font = '28px serif';
+      ctx.fillStyle = '#f9d342';
+      ctx.fillText('✨', 35, 60);
+      ctx.fillText('✨', 735, 60);
+      ctx.fillText('🎄', 35, 495);
+      ctx.fillText('❄️', 735, 495);
+
+      // Draw "To"
+      ctx.font = 'bold 28px "Noto Sans KR", sans-serif';
+      ctx.fillStyle = '#f9d342';
+      ctx.fillText(`Dear. ${inputCardTo.value || '소중한 분께'}`, 60, 95);
+
+      // Draw Message (with line wrapping)
+      ctx.font = '22px "Noto Sans KR", sans-serif';
+      ctx.fillStyle = '#f1f5f9';
+      const lines = (inputCardMsg.value || '').split('\n');
+      let startY = 200;
+      lines.forEach(line => {
+        ctx.fillText(line, 60, startY);
+        startY += 38;
+      });
+
+      // Draw "From"
+      ctx.font = 'bold 24px "Noto Sans KR", sans-serif';
+      ctx.fillStyle = '#ffe57f';
+      ctx.textAlign = 'right';
+      ctx.fillText(`From. ${inputCardFrom.value || '산타의 친구'}`, 740, 460);
+
+      // Trigger download
+      const link = document.createElement('a');
+      link.download = `Christmas-Card-${Date.now()}.png`;
+      link.href = c.toDataURL('image/png');
+      link.click();
+    });
+
+    /* =========================================================
+       7. MINI GAME: RUDOLPH'S GIFT CATCHER
+    ========================================================= */
+    const gameCanvas = document.getElementById('game-canvas');
+    const gCtx = gameCanvas.getContext('2d');
+    const gameOverlay = document.getElementById('game-start-overlay');
+    const scoreEl = document.getElementById('game-score');
+    const highEl = document.getElementById('game-high');
+
+    let gWidth = 600;
+    let gHeight = 340;
+    function resizeGameCanvas() {
+      const rect = document.getElementById('game-stage').getBoundingClientRect();
+      gWidth = rect.width;
+      gHeight = rect.height;
+      gameCanvas.width = gWidth;
+      gameCanvas.height = gHeight;
+    }
+    resizeGameCanvas();
+    window.addEventListener('resize', resizeGameCanvas);
+
+    let gameActive = false;
+    let score = 0;
+    let highScore = localStorage.getItem('xmas_game_high') || 0;
+    highEl.textContent = highScore;
+
+    let basket = {
+      x: gWidth / 2 - 35,
+      y: gHeight - 45,
+      width: 70,
+      height: 35,
+      emoji: '🛷'
+    };
+
+    let items = [];
+    let gameLoopId = null;
+
+    function spawnItem() {
+      if (!gameActive) return;
+      const isBomb = Math.random() < 0.2;
+      const isStar = Math.random() < 0.3;
+      items.push({
+        x: Math.random() * (gWidth - 40) + 10,
+        y: -30,
+        speed: Math.random() * 2 + 2,
+        type: isBomb ? 'bomb' : (isStar ? 'star' : 'gift'),
+        emoji: isBomb ? '💣' : (isStar ? '⭐' : '🎁'),
+        size: 26
+      });
+    }
+
+    let spawnTimer = null;
+
+    function startGame() {
+      resizeGameCanvas();
+      gameActive = true;
+      score = 0;
+      scoreEl.textContent = score;
+      items = [];
+      basket.y = gHeight - 45;
+      gameOverlay.style.display = 'none';
+
+      clearInterval(spawnTimer);
+      spawnTimer = setInterval(spawnItem, 700);
+
+      gameLoop();
+    }
+
+    function endGame() {
+      gameActive = false;
+      clearInterval(spawnTimer);
+      cancelAnimationFrame(gameLoopId);
+      if (score > highScore) {
+        highScore = score;
+        localStorage.setItem('xmas_game_high', highScore);
+        highEl.textContent = highScore;
+      }
+      gameOverlay.innerHTML = `
+        <div style="font-size: 38px;">💥 GAME OVER</div>
+        <div style="font-size: 18px; color: #fff;">최종 획득 점수: <b style="color:var(--gold); font-size:24px;">${score}점</b></div>
+        <button id="btn-restart" class="btn-submit" style="padding: 10px 24px; margin-top: 10px;">
+          <span>🔄</span> 다시 도전하기
+        </button>
+      `;
+      gameOverlay.style.display = 'flex';
+      document.getElementById('btn-restart').addEventListener('click', startGame);
+    }
+
+    function gameLoop() {
+      if (!gameActive) return;
+      gCtx.clearRect(0, 0, gWidth, gHeight);
+
+      // Draw Basket
+      gCtx.font = '34px sans-serif';
+      gCtx.fillText(basket.emoji, basket.x, basket.y + 28);
+
+      // Update & Draw Items
+      for (let i = items.length - 1; i >= 0; i--) {
+        const it = items[i];
+        it.y += it.speed;
+
+        gCtx.font = `${it.size}px sans-serif`;
+        gCtx.fillText(it.emoji, it.x, it.y);
+
+        // Collision Check with basket
+        if (
+          it.y >= basket.y - 10 &&
+          it.y <= basket.y + basket.height &&
+          it.x + it.size >= basket.x &&
+          it.x <= basket.x + basket.width
+        ) {
+          if (it.type === 'bomb') {
+            endGame();
+            return;
+          } else {
+            score += it.type === 'star' ? 20 : 10;
+            scoreEl.textContent = score;
+            playCelestaTone(it.type === 'star' ? NOTES.E5 : NOTES.C5, 0.1);
+            items.splice(i, 1);
+            continue;
+          }
+        }
+
+        // Remove offscreen
+        if (it.y > gHeight + 20) {
+          items.splice(i, 1);
+        }
+      }
+
+      gameLoopId = requestAnimationFrame(gameLoop);
+    }
+
+    // Controls: Mouse & Touch
+    function moveBasket(clientX) {
+      const rect = gameCanvas.getBoundingClientRect();
+      const x = clientX - rect.left - basket.width / 2;
+      basket.x = Math.max(10, Math.min(x, gWidth - basket.width - 10));
+    }
+
+    gameCanvas.addEventListener('mousemove', (e) => {
+      if (gameActive) moveBasket(e.clientX);
+    });
+
+    gameCanvas.addEventListener('touchmove', (e) => {
+      if (gameActive && e.touches.length > 0) {
+        moveBasket(e.touches[0].clientX);
+      }
+    }, { passive: true });
+
+    document.getElementById('btn-start-game').addEventListener('click', startGame);
+
+    /* =========================================================
+       8. HOLIDAY QUOTE CAROUSEL
+    ========================================================= */
+    const QUOTES = [
+      {
+        text: "크리스마스는 단순히 날짜가 아닙니다. 그것은 따뜻함과 사랑, 그리고 감사를 나누는 마음의 상태입니다.",
+        author: "— 메리 앨런 체이스 (Mary Ellen Chase)"
+      },
+      {
+        text: "가장 좋은 크리스마스 선물은 비싼 물건이 아니라, 온 가족이 다 함께 모여 행복하게 웃는 순간입니다.",
+        author: "— 버튼 힐리스 (Burton Hillis)"
+      },
+      {
+        text: "크리스마스는 온 세상을 포근한 친절로 감싸 안는 마법의 지팡이를 흔듭니다.",
+        author: "— 노먼 빈센트 필 (Norman Vincent Peale)"
+      },
+      {
+        text: "우리가 누군가에게 작은 사랑을 베풀 때마다, 그 순간이 바로 크리스마스입니다.",
+        author: "— 할란 밀러 (Harlan Miller)"
+      }
+    ];
+
+    let currentQuoteIdx = 0;
+    const quoteTextEl = document.getElementById('carousel-quote');
+    const quoteAuthorEl = document.getElementById('carousel-author');
+
+    function showQuote(idx) {
+      quoteTextEl.style.opacity = 0;
+      quoteAuthorEl.style.opacity = 0;
+      setTimeout(() => {
+        quoteTextEl.textContent = `"${QUOTES[idx].text}"`;
+        quoteAuthorEl.textContent = QUOTES[idx].author;
+        quoteTextEl.style.opacity = 1;
+        quoteAuthorEl.style.opacity = 1;
+      }, 200);
+    }
+
+    document.getElementById('btn-prev-quote').addEventListener('click', () => {
+      currentQuoteIdx = (currentQuoteIdx - 1 + QUOTES.length) % QUOTES.length;
+      showQuote(currentQuoteIdx);
+    });
+
+    document.getElementById('btn-next-quote').addEventListener('click', () => {
+      currentQuoteIdx = (currentQuoteIdx + 1) % QUOTES.length;
+      showQuote(currentQuoteIdx);
+    });
+
+    setInterval(() => {
+      currentQuoteIdx = (currentQuoteIdx + 1) % QUOTES.length;
+      showQuote(currentQuoteIdx);
+    }, 7000);
+
+    /* =========================================================
+       9. LIGHTWEIGHT CANVAS CONFETTI EFFECT
+    ========================================================= */
+    const confettiCanvas = document.getElementById('confetti-canvas');
+    const cCtx = confettiCanvas.getContext('2d');
+    confettiCanvas.width = window.innerWidth;
+    confettiCanvas.height = window.innerHeight;
+
+    let particles = [];
+    const colors = ['#f9d342', '#ff5252', '#4caf50', '#ffffff', '#ffd54f', '#64b5f6'];
+
+    function triggerConfetti(startX, startY) {
+      const originX = startX || window.innerWidth / 2;
+      const originY = startY || window.innerHeight / 2;
+
+      for (let i = 0; i < 70; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const velocity = Math.random() * 8 + 4;
+        particles.push({
+          x: originX,
+          y: originY,
+          vx: Math.cos(angle) * velocity,
+          vy: Math.sin(angle) * velocity - 3,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          size: Math.random() * 7 + 4,
+          tilt: Math.random() * 10,
+          tiltAngle: 0,
+          tiltAngleInc: Math.random() * 0.1 + 0.05,
+          alpha: 1
+        });
+      }
+    }
+
+    function renderConfetti() {
+      cCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.18; // gravity
+        p.vx *= 0.98; // drag
+        p.tiltAngle += p.tiltAngleInc;
+        p.alpha -= 0.009;
+
+        if (p.alpha <= 0 || p.y > confettiCanvas.height) {
+          particles.splice(i, 1);
+          continue;
+        }
+
+        cCtx.beginPath();
+        cCtx.lineWidth = p.size;
+        cCtx.strokeStyle = p.color;
+        cCtx.globalAlpha = Math.max(0, p.alpha);
+        cCtx.moveTo(p.x + p.tilt + p.size / 2, p.y);
+        cCtx.lineTo(p.x + p.tilt, p.y + p.tilt + p.size / 2);
+        cCtx.stroke();
+        cCtx.globalAlpha = 1;
+      }
+      requestAnimationFrame(renderConfetti);
+    }
+    requestAnimationFrame(renderConfetti);
+  </script>
+</body>
+</html>
+</html>
