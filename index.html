@@ -1097,6 +1097,528 @@
       pointer-events: none;
       z-index: 150;
     }
+
+    /* =========================================================
+       THEME SWITCH (DARK / WHITE MODE TOGGLE) UI/UX
+    ========================================================= */
+    .theme-toggle-wrapper {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-left: 8px;
+      padding-left: 14px;
+      border-left: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .theme-switch-btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      background: rgba(15, 23, 42, 0.78);
+      border: 1.5px solid rgba(249, 211, 66, 0.4);
+      border-radius: 50px;
+      padding: 4px 14px 4px 5px;
+      cursor: pointer;
+      gap: 10px;
+      user-select: none;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.12);
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      outline: none;
+    }
+
+    .theme-switch-btn:hover {
+      border-color: var(--gold);
+      box-shadow: 0 6px 22px rgba(249, 211, 66, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+    }
+
+    .theme-switch-btn:focus-visible {
+      box-shadow: 0 0 0 3px rgba(249, 211, 66, 0.6);
+    }
+
+    .theme-switch-btn:active {
+      transform: translateY(0) scale(0.97);
+    }
+
+    .theme-track {
+      position: relative;
+      width: 60px;
+      height: 30px;
+      background: linear-gradient(135deg, #09132b 0%, #1e1b4b 60%, #172554 100%);
+      border-radius: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      transition: background 0.45s ease, border-color 0.45s ease, box-shadow 0.45s ease;
+      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.65);
+    }
+
+    /* Night sky deco in track */
+    .track-night-sky {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 1;
+      transition: opacity 0.4s ease;
+    }
+
+    .track-night-sky .track-star {
+      position: absolute;
+      color: #fff;
+      font-size: 8px;
+      opacity: 0.85;
+      animation: trackTwinkle 1.8s infinite alternate;
+      line-height: 1;
+    }
+
+    .track-night-sky .star-1 { top: 6px; right: 24px; font-size: 7px; color: #fef08a; }
+    .track-night-sky .star-2 { bottom: 5px; right: 14px; font-size: 8px; color: #bae6fd; animation-delay: 0.6s; }
+    .track-night-sky .star-3 { top: 8px; right: 8px; font-size: 6px; color: #ffffff; animation-delay: 1.2s; }
+
+    @keyframes trackTwinkle {
+      0% { opacity: 0.25; transform: scale(0.7); }
+      100% { opacity: 1; transform: scale(1.15); }
+    }
+
+    /* Day sky deco in track */
+    .track-day-sky {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      background: linear-gradient(135deg, #38bdf8 0%, #7dd3fc 50%, #bae6fd 100%);
+    }
+
+    .track-day-sky .track-cloud {
+      position: absolute;
+      font-size: 11px;
+      line-height: 1;
+      filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+    }
+    .track-day-sky .cloud-1 { bottom: 3px; left: 6px; opacity: 0.95; }
+    .track-day-sky .cloud-2 { top: 3px; left: 22px; opacity: 0.85; }
+
+    /* Thumb Slider Knob */
+    .theme-thumb {
+      position: absolute;
+      left: 3px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ffffff 0%, #fef3c7 60%, #fde047 100%);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 10px rgba(254, 240, 138, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.4s ease, box-shadow 0.4s ease;
+      z-index: 2;
+    }
+
+    .thumb-icon {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.3s ease, transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+      line-height: 1;
+      user-select: none;
+    }
+
+    .thumb-icon.moon {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+    }
+
+    .thumb-icon.sun {
+      opacity: 0;
+      transform: scale(0.2) rotate(-180deg);
+    }
+
+    /* Switch Label */
+    .theme-label-group {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      line-height: 1.15;
+      text-align: left;
+    }
+
+    .theme-label-title {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .theme-label-val {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--gold-light);
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      transition: color 0.3s ease;
+    }
+
+    /* =========================================================
+       LIGHT MODE (WHITE MODE) STYLING SYSTEM
+    ========================================================= */
+    body.light-mode {
+      background: radial-gradient(circle at 50% 15%, #ffffff 0%, #f1f6fd 40%, #e2ecf9 75%, #d6e4f7 100%) !important;
+      color: #1e293b !important;
+    }
+
+    /* Switch styling in Light Mode */
+    body.light-mode .theme-switch-btn {
+      background: rgba(255, 255, 255, 0.95);
+      border-color: rgba(56, 189, 248, 0.55);
+      box-shadow: 0 4px 15px rgba(56, 189, 248, 0.22), inset 0 1px 1px #ffffff;
+    }
+
+    body.light-mode .theme-switch-btn:hover {
+      border-color: #0284c7;
+      box-shadow: 0 6px 20px rgba(56, 189, 248, 0.35), inset 0 1px 1px #ffffff;
+    }
+
+    body.light-mode .theme-switch-btn:focus-visible {
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.6);
+    }
+
+    body.light-mode .theme-track {
+      box-shadow: inset 0 2px 5px rgba(12, 74, 110, 0.35);
+      border-color: rgba(56, 189, 248, 0.6);
+    }
+
+    body.light-mode .track-night-sky {
+      opacity: 0;
+    }
+
+    body.light-mode .track-day-sky {
+      opacity: 1;
+    }
+
+    body.light-mode .theme-thumb {
+      transform: translateX(30px);
+      background: linear-gradient(135deg, #fffbeb 0%, #fbbf24 60%, #f59e0b 100%);
+      box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4), 0 0 12px rgba(245, 158, 11, 0.85);
+    }
+
+    body.light-mode .thumb-icon.moon {
+      opacity: 0;
+      transform: scale(0.2) rotate(180deg);
+    }
+
+    body.light-mode .thumb-icon.sun {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+    }
+
+    body.light-mode .theme-label-title {
+      color: #64748b;
+    }
+
+    body.light-mode .theme-label-val {
+      color: #0284c7;
+    }
+
+    body.light-mode .theme-toggle-wrapper {
+      border-left-color: rgba(148, 163, 184, 0.3);
+    }
+
+    /* Overall Component Styling in Light Mode */
+    body.light-mode .navbar {
+      border-bottom-color: rgba(148, 163, 184, 0.25);
+    }
+
+    body.light-mode .brand-logo {
+      color: #b45309;
+      text-shadow: 0 0 12px rgba(245, 158, 11, 0.35);
+    }
+
+    body.light-mode .aurora-layer {
+      background: radial-gradient(ellipse at 50% 0%, rgba(56, 189, 248, 0.22) 0%, rgba(244, 114, 182, 0.1) 45%, transparent 75%) !important;
+    }
+
+    body.light-mode .btn-pill {
+      background: rgba(255, 255, 255, 0.88);
+      border-color: rgba(203, 213, 225, 0.9);
+      color: #334155;
+      box-shadow: 0 2px 6px rgba(148, 163, 184, 0.15);
+    }
+
+    body.light-mode .btn-pill:hover {
+      background: #ffffff;
+      border-color: #f59e0b;
+      color: #b45309;
+      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.2);
+    }
+
+    body.light-mode .hero h1 {
+      background: linear-gradient(135deg, #0f172a 0%, #9a3412 50%, #d97706 100%) !important;
+      -webkit-background-clip: text !important;
+      -webkit-text-fill-color: transparent !important;
+      text-shadow: 0 4px 20px rgba(217, 119, 6, 0.15);
+    }
+
+    body.light-mode .hero-subtitle {
+      color: #475569;
+    }
+
+    body.light-mode .hero-badge {
+      background: rgba(220, 38, 38, 0.08);
+      border-color: rgba(220, 38, 38, 0.3);
+      color: #c5221f;
+    }
+
+    body.light-mode .countdown-wrapper {
+      background: rgba(255, 255, 255, 0.88);
+      border-color: rgba(217, 119, 6, 0.3);
+      box-shadow: 0 12px 35px rgba(148, 163, 184, 0.25), inset 0 1px 0 #ffffff;
+    }
+
+    body.light-mode .count-num {
+      color: #b45309;
+      text-shadow: 0 0 15px rgba(245, 158, 11, 0.4);
+    }
+
+    body.light-mode .count-label {
+      color: #64748b;
+    }
+
+    body.light-mode .count-divider {
+      color: rgba(217, 119, 6, 0.4);
+    }
+
+    body.light-mode .section-title h2 {
+      color: #0f172a;
+      text-shadow: none;
+    }
+
+    body.light-mode .section-title p {
+      color: #64748b;
+    }
+
+    body.light-mode .glass-card {
+      background: rgba(255, 255, 255, 0.85);
+      border-color: rgba(226, 232, 240, 0.95);
+      box-shadow: 0 12px 35px rgba(148, 163, 184, 0.22);
+    }
+
+    body.light-mode .glass-card:hover {
+      border-color: rgba(217, 119, 6, 0.45);
+    }
+
+    body.light-mode .tree-stage {
+      background: radial-gradient(circle at 50% 60%, rgba(46, 125, 50, 0.15) 0%, rgba(255, 255, 255, 0.3) 70%);
+    }
+
+    body.light-mode .form-group label {
+      color: #334155;
+    }
+
+    body.light-mode .form-input, 
+    body.light-mode .form-textarea, 
+    body.light-mode .form-select {
+      background: rgba(248, 250, 252, 0.95);
+      border-color: #cbd5e1;
+      color: #0f172a;
+    }
+
+    body.light-mode .form-input:focus, 
+    body.light-mode .form-textarea:focus, 
+    body.light-mode .form-select:focus {
+      background: #ffffff;
+      border-color: #f59e0b;
+      box-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
+    }
+
+    body.light-mode .ornament-choice {
+      border-color: rgba(203, 213, 225, 0.9);
+      background: rgba(241, 245, 249, 0.7);
+    }
+
+    body.light-mode .ornament-choice:hover {
+      background: rgba(226, 232, 240, 0.85);
+    }
+
+    body.light-mode .ornament-choice.selected {
+      border-color: #d97706;
+      background: rgba(254, 243, 199, 0.85);
+      box-shadow: 0 0 12px rgba(245, 158, 11, 0.35);
+    }
+
+    body.light-mode .wish-item-card {
+      background: rgba(241, 245, 249, 0.85);
+      border-left-color: #d97706;
+    }
+
+    body.light-mode .wish-item-head {
+      color: #b45309;
+    }
+
+    body.light-mode .wish-item-text {
+      color: #334155;
+    }
+
+    body.light-mode .wishes-preview-list::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.5);
+    }
+
+    body.light-mode .fortune-result-box {
+      background: rgba(254, 243, 199, 0.6);
+      border-color: rgba(217, 119, 6, 0.35);
+    }
+
+    body.light-mode .fortune-tag {
+      color: #b45309;
+    }
+
+    body.light-mode .fortune-quote {
+      color: #0f172a;
+    }
+
+    body.light-mode .fortune-sub {
+      color: #475569;
+    }
+
+    body.light-mode .advent-front {
+      background: linear-gradient(135deg, rgba(27, 77, 62, 0.95), rgba(12, 40, 32, 0.98));
+      box-shadow: 0 4px 15px rgba(148, 163, 184, 0.3);
+    }
+
+    body.light-mode .advent-back {
+      background: linear-gradient(135deg, #ffffff, #f8fafc);
+      border-color: rgba(217, 119, 6, 0.4);
+      color: #0f172a;
+      box-shadow: inset 0 0 12px rgba(148, 163, 184, 0.2);
+    }
+
+    body.light-mode .advent-back-text {
+      color: #334155;
+    }
+
+    body.light-mode .game-container {
+      background: rgba(255, 255, 255, 0.9);
+      border-color: rgba(217, 119, 6, 0.4);
+      box-shadow: 0 10px 30px rgba(148, 163, 184, 0.25);
+    }
+
+    body.light-mode .game-overlay {
+      background: rgba(248, 250, 252, 0.88);
+      color: #0f172a;
+    }
+
+    body.light-mode .game-overlay h3 {
+      color: #0f172a;
+    }
+
+    body.light-mode .game-score-bar {
+      color: #b45309;
+    }
+
+    body.light-mode .quotes-wrapper {
+      background: rgba(255, 255, 255, 0.8);
+      border-color: rgba(226, 232, 240, 0.9);
+      box-shadow: 0 8px 25px rgba(148, 163, 184, 0.15);
+    }
+
+    body.light-mode .quote-icon {
+      color: #d97706;
+    }
+
+    body.light-mode .quote-text {
+      color: #334155;
+    }
+
+    body.light-mode .quote-author {
+      color: #64748b;
+    }
+
+    body.light-mode .audio-player-pill {
+      background: rgba(255, 255, 255, 0.92);
+      border-color: rgba(217, 119, 6, 0.35);
+      box-shadow: 0 8px 30px rgba(148, 163, 184, 0.35);
+    }
+
+    body.light-mode .audio-title {
+      color: #b45309;
+    }
+
+    body.light-mode .audio-sub {
+      color: #64748b;
+    }
+
+    body.light-mode .audio-btn {
+      background: rgba(0, 0, 0, 0.06);
+      color: #1e293b;
+    }
+
+    body.light-mode .audio-btn:hover {
+      background: #f59e0b;
+      color: #ffffff;
+    }
+
+    body.light-mode .v-bar {
+      background: #d97706;
+    }
+
+    body.light-mode .modal-box {
+      background: linear-gradient(135deg, #ffffff, #f1f5f9);
+      border-color: #f59e0b;
+      box-shadow: 0 20px 50px rgba(148, 163, 184, 0.4), 0 0 30px rgba(245, 158, 11, 0.2);
+    }
+
+    body.light-mode .modal-author {
+      color: #b45309;
+    }
+
+    body.light-mode .modal-message {
+      background: rgba(241, 245, 249, 0.8);
+      color: #1e293b;
+    }
+
+    body.light-mode .modal-close {
+      color: #64748b;
+    }
+
+    body.light-mode .modal-close:hover {
+      color: #0f172a;
+    }
+
+    body.light-mode footer {
+      border-top-color: rgba(148, 163, 184, 0.25);
+      color: #64748b;
+    }
+
+    body.light-mode footer a {
+      color: #b45309;
+    }
+
+    /* Smooth Transition during theme change */
+    body, .glass-card, .navbar, .btn-pill, .countdown-wrapper, .modal-box, .audio-player-pill, .quotes-wrapper, .form-input, .form-textarea, .form-select, .wish-item-card {
+      transition: background 0.4s ease, background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    @media (max-width: 900px) {
+      .navbar {
+        flex-direction: column;
+        gap: 16px;
+      }
+      .nav-actions {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .theme-toggle-wrapper {
+        border-left: none;
+        padding-left: 0;
+        margin-left: 0;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1132,6 +1654,34 @@
         <button id="btn-sound-mode" class="btn-pill" title="배경 사운드 전환">
           <span id="sound-icon">🔥</span> <span id="sound-label">모닥불 효과음</span>
         </button>
+
+        <!-- Dynamic Dark / White Theme Toggle Switch -->
+        <div class="theme-toggle-wrapper">
+          <button id="btn-theme-toggle" class="theme-switch-btn" role="switch" aria-checked="false" aria-label="화이트 모드로 전환" title="다크/화이트 모드 테마 전환">
+            <div class="theme-track">
+              <!-- Dark Mode Sky Elements -->
+              <div class="track-night-sky">
+                <span class="track-star star-1">✦</span>
+                <span class="track-star star-2">★</span>
+                <span class="track-star star-3">✦</span>
+              </div>
+              <!-- Light Mode Sky Elements -->
+              <div class="track-day-sky">
+                <span class="track-cloud cloud-1">☁️</span>
+                <span class="track-cloud cloud-2">✨</span>
+              </div>
+              <!-- Moving Animated Thumb Knob -->
+              <div class="theme-thumb">
+                <span class="thumb-icon moon">🌙</span>
+                <span class="thumb-icon sun">☀️</span>
+              </div>
+            </div>
+            <div class="theme-label-group">
+              <span class="theme-label-title">THEME</span>
+              <span class="theme-label-val" id="theme-status-text">다크 모드</span>
+            </div>
+          </button>
+        </div>
       </div>
     </header>
 
@@ -1541,11 +2091,18 @@
         if (f.x > width + 10) f.x = -10;
         if (f.x < -10) f.x = width + 10;
 
+        const isLight = document.body.classList.contains('light-mode');
         snowCtx.beginPath();
         snowCtx.arc(f.x, f.y, f.radius, 0, Math.PI * 2, false);
-        snowCtx.fillStyle = `rgba(255, 255, 255, ${f.alpha})`;
-        snowCtx.shadowColor = 'rgba(255, 255, 255, 0.8)';
-        snowCtx.shadowBlur = f.radius > 2.5 ? 6 : 0;
+        if (isLight) {
+          snowCtx.fillStyle = `rgba(125, 175, 235, ${f.alpha * 0.9})`;
+          snowCtx.shadowColor = 'rgba(186, 230, 253, 0.9)';
+          snowCtx.shadowBlur = f.radius > 2.5 ? 5 : 0;
+        } else {
+          snowCtx.fillStyle = `rgba(255, 255, 255, ${f.alpha})`;
+          snowCtx.shadowColor = 'rgba(255, 255, 255, 0.8)';
+          snowCtx.shadowBlur = f.radius > 2.5 ? 6 : 0;
+        }
         snowCtx.fill();
       }
       requestAnimationFrame(renderSnow);
@@ -2467,7 +3024,92 @@
       requestAnimationFrame(renderConfetti);
     }
     requestAnimationFrame(renderConfetti);
+
+    /* =========================================================
+       11. LUXURY THEME TOGGLE (DARK / WHITE MODE) CONTROLLER
+    ========================================================= */
+    const themeBtn = document.getElementById('btn-theme-toggle');
+    const themeStatusText = document.getElementById('theme-status-text');
+
+    function applyTheme(mode, persist = true) {
+      const isLight = mode === 'light';
+      
+      if (isLight) {
+        document.body.classList.add('light-mode');
+        if (themeBtn) {
+          themeBtn.setAttribute('aria-checked', 'true');
+          themeBtn.setAttribute('aria-label', '다크 모드로 전환');
+          themeBtn.setAttribute('title', '현재: 화이트 모드 (클릭하여 다크 모드로 전환)');
+        }
+        if (themeStatusText) {
+          themeStatusText.textContent = '화이트 설경';
+        }
+      } else {
+        document.body.classList.remove('light-mode');
+        if (themeBtn) {
+          themeBtn.setAttribute('aria-checked', 'false');
+          themeBtn.setAttribute('aria-label', '화이트 모드로 전환');
+          themeBtn.setAttribute('title', '현재: 다크 모드 (클릭하여 화이트 모드로 전환)');
+        }
+        if (themeStatusText) {
+          themeStatusText.textContent = '다크 밤하늘';
+        }
+      }
+
+      if (persist) {
+        try {
+          localStorage.setItem('winter_theme', mode);
+        } catch (e) {
+          console.warn('Storage unavailable:', e);
+        }
+      }
+    }
+
+    // Toggle click interaction with subtle micro-sparkle effect
+    if (themeBtn) {
+      themeBtn.addEventListener('click', () => {
+        const currentlyLight = document.body.classList.contains('light-mode');
+        const nextTheme = currentlyLight ? 'dark' : 'light';
+        applyTheme(nextTheme, true);
+
+        // Optional tiny celebratory sparkle around the button
+        const rect = themeBtn.getBoundingClientRect();
+        if (typeof particles !== 'undefined' && Array.isArray(particles)) {
+          for (let i = 0; i < 16; i++) {
+            const angle = Math.random() * Math.PI * 2;
+            const velocity = Math.random() * 4 + 2;
+            particles.push({
+              x: rect.left + rect.width / 2,
+              y: rect.top + rect.height / 2,
+              vx: Math.cos(angle) * velocity,
+              vy: Math.sin(angle) * velocity,
+              color: nextTheme === 'light' ? '#38bdf8' : '#f9d342',
+              size: Math.random() * 4 + 2,
+              tilt: Math.random() * 5,
+              tiltAngle: 0,
+              tiltAngleInc: 0.1,
+              alpha: 0.95
+            });
+          }
+        }
+      });
+    }
+
+    // Initialize Theme (Saved preference > System preference > Default dark)
+    (function initTheme() {
+      let savedTheme = null;
+      try {
+        savedTheme = localStorage.getItem('winter_theme');
+      } catch (e) {}
+
+      if (savedTheme === 'light' || savedTheme === 'dark') {
+        applyTheme(savedTheme, false);
+      } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+        applyTheme('light', false);
+      } else {
+        applyTheme('dark', false);
+      }
+    })();
   </script>
 </body>
-</html>
 </html>
